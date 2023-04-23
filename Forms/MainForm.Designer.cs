@@ -28,12 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             TopMenu = new ToolStrip();
-            ListTools = new ToolStripDropDownButton();
-            ListAdvanced = new ToolStripDropDownButton();
+            MenuTools = new ToolStripDropDownButton();
+            MenuAdvanced = new ToolStripDropDownButton();
             ButRestartAsAdmin = new ToolStripMenuItem();
+            MenuAbout = new ToolStripDropDownButton();
+            githubUrlToolStripMenuItem = new ToolStripMenuItem();
+            buildTimeToolStripMenuItem = new ToolStripMenuItem();
             TxtLog = new TextBox();
             PnTool = new Panel();
+            frameworkVersionToolStripMenuItem = new ToolStripMenuItem();
             TopMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -41,29 +46,29 @@
             // 
             TopMenu.BackColor = Color.FromArgb(224, 224, 224);
             TopMenu.Font = new Font("Microsoft YaHei UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            TopMenu.Items.AddRange(new ToolStripItem[] { ListTools, ListAdvanced });
+            TopMenu.Items.AddRange(new ToolStripItem[] { MenuTools, MenuAdvanced, MenuAbout });
             TopMenu.Location = new Point(0, 0);
             TopMenu.Name = "TopMenu";
             TopMenu.Size = new Size(580, 27);
             TopMenu.TabIndex = 0;
             TopMenu.Text = "toolStrip1";
             // 
-            // ListTools
+            // MenuTools
             // 
-            ListTools.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            ListTools.ImageTransparentColor = Color.Magenta;
-            ListTools.Name = "ListTools";
-            ListTools.Size = new Size(52, 24);
-            ListTools.Text = "工具";
+            MenuTools.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            MenuTools.ImageTransparentColor = Color.Magenta;
+            MenuTools.Name = "MenuTools";
+            MenuTools.Size = new Size(52, 24);
+            MenuTools.Text = "工具";
             // 
-            // ListAdvanced
+            // MenuAdvanced
             // 
-            ListAdvanced.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            ListAdvanced.DropDownItems.AddRange(new ToolStripItem[] { ButRestartAsAdmin });
-            ListAdvanced.ImageTransparentColor = Color.Magenta;
-            ListAdvanced.Name = "ListAdvanced";
-            ListAdvanced.Size = new Size(52, 24);
-            ListAdvanced.Text = "高级";
+            MenuAdvanced.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            MenuAdvanced.DropDownItems.AddRange(new ToolStripItem[] { ButRestartAsAdmin });
+            MenuAdvanced.ImageTransparentColor = Color.Magenta;
+            MenuAdvanced.Name = "MenuAdvanced";
+            MenuAdvanced.Size = new Size(52, 24);
+            MenuAdvanced.Text = "高级";
             // 
             // ButRestartAsAdmin
             // 
@@ -71,6 +76,29 @@
             ButRestartAsAdmin.Size = new Size(183, 24);
             ButRestartAsAdmin.Text = "管理员权限重启";
             ButRestartAsAdmin.Click += ButRestartAsAdmin_Click;
+            // 
+            // MenuAbout
+            // 
+            MenuAbout.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            MenuAbout.DropDownItems.AddRange(new ToolStripItem[] { githubUrlToolStripMenuItem, buildTimeToolStripMenuItem, frameworkVersionToolStripMenuItem });
+            MenuAbout.Image = (Image)resources.GetObject("MenuAbout.Image");
+            MenuAbout.ImageTransparentColor = Color.Magenta;
+            MenuAbout.Name = "MenuAbout";
+            MenuAbout.Size = new Size(52, 24);
+            MenuAbout.Text = "关于";
+            // 
+            // githubUrlToolStripMenuItem
+            // 
+            githubUrlToolStripMenuItem.Name = "githubUrlToolStripMenuItem";
+            githubUrlToolStripMenuItem.Size = new Size(214, 24);
+            githubUrlToolStripMenuItem.Text = "源码 on Github";
+            githubUrlToolStripMenuItem.Click += GithubUrlToolStripMenuItem_Click;
+            // 
+            // buildTimeToolStripMenuItem
+            // 
+            buildTimeToolStripMenuItem.Name = "buildTimeToolStripMenuItem";
+            buildTimeToolStripMenuItem.Size = new Size(214, 24);
+            buildTimeToolStripMenuItem.Text = "编译时间";
             // 
             // TxtLog
             // 
@@ -91,6 +119,12 @@
             PnTool.Name = "PnTool";
             PnTool.Size = new Size(580, 134);
             PnTool.TabIndex = 2;
+            // 
+            // frameworkVersionToolStripMenuItem
+            // 
+            frameworkVersionToolStripMenuItem.Name = "frameworkVersionToolStripMenuItem";
+            frameworkVersionToolStripMenuItem.Size = new Size(214, 24);
+            frameworkVersionToolStripMenuItem.Text = "FrameworkVersion";
             // 
             // MainForm
             // 
@@ -118,8 +152,12 @@
         private ToolStrip TopMenu;
         private TextBox TxtLog;
         private Panel PnTool;
-        private ToolStripDropDownButton ListTools;
-        private ToolStripDropDownButton ListAdvanced;
+        private ToolStripDropDownButton MenuTools;
+        private ToolStripDropDownButton MenuAdvanced;
         private ToolStripMenuItem ButRestartAsAdmin;
+        private ToolStripDropDownButton MenuAbout;
+        private ToolStripMenuItem githubUrlToolStripMenuItem;
+        private ToolStripMenuItem buildTimeToolStripMenuItem;
+        private ToolStripMenuItem frameworkVersionToolStripMenuItem;
     }
 }

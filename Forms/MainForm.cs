@@ -1,5 +1,6 @@
 ﻿using BuyiTools.Tools;
 using System.Diagnostics;
+using System.Resources;
 using System.Xml.Linq;
 using Windows.System;
 
@@ -18,9 +19,11 @@ namespace BuyiTools
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            InputData.ReadFromFile();
+            buildTimeToolStripMenuItem.Text = $"编译时间 {Properties.Resources.BuildDate.Trim()}";
+            frameworkVersionToolStripMenuItem.Text = $"平台 {AppContext.TargetFrameworkName}";
             RegisterTool<MklinkTool>("量产 Mklink");
             RegisterTool<FileDeleteTool>("删除相对文件");
-            InputData.ReadFromFile();
             var args = Environment.GetCommandLineArgs();
             if (args != null && args.Length > 1)
             {
@@ -46,7 +49,7 @@ namespace BuyiTools
         {
             Type t = typeof(T);
             tools.Add(name, t);
-            var button = ListTools.DropDownItems.Add(name);
+            var button = MenuTools.DropDownItems.Add(name);
             button.Click += (object? sender, EventArgs e) =>
             {
                 OpenToolByName(name);
@@ -112,5 +115,9 @@ namespace BuyiTools
             return;
         }
 
+        private void GithubUrlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using var proc = Process.Start("explorer.exe", "https://github.com/chenbuyi2019/Buyi-Tools");
+        }
     }
 }
