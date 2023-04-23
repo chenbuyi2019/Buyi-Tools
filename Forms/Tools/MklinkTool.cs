@@ -47,6 +47,7 @@ namespace BuyiTools.Tools
         private void ButCreate_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
+            InputData.ReadFromFile();
             InputData.SetValueFromControl(TxtParentFolder);
             InputData.SetValueFromControl(TxtTargetFolders);
             InputData.SaveToFile();

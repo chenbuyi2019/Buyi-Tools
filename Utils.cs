@@ -21,7 +21,7 @@ namespace BuyiTools
         public static string MakeCleanPath(string str)
         {
             if (string.IsNullOrWhiteSpace(str)) { return string.Empty; }
-            return str.Trim().Replace("\\", "/").Replace("\"", "");
+            return str.Trim().Replace("\\", "/").Replace("\"", "").Trim('/');
         }
 
         /// <summary>

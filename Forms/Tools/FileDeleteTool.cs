@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,16 +13,107 @@ namespace BuyiTools.Tools
 {
     public partial class FileDeleteTool : ToolBase
     {
+        private static readonly string FileDeleteSetsDir = Path.Combine(AppContext.BaseDirectory, "FileDeleteSets");
+        private static readonly Dictionary<string, string> FileDeleteSets = new();
+
         public FileDeleteTool()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void FileDeleteTool_Load(object sender, EventArgs e)
         {
-            var f = Utils.RunCmd("ipconfig", null, null, 1000);
-            Log(f[0]);
-            Log(f[1]);
+            InputData.GetValueToControl(this.TxtTargetFiles);
+            InputData.GetValueToControl(this.TxtWorkingDir);
+            var dir = new DirectoryInfo(FileDeleteSetsDir);
+            var files = dir.GetFiles("*.txt", SearchOption.TopDirectoryOnly);
+            foreach (var f in files)
+            {
+                if (f.Length > 0 && f.Length < 1024 * 1024 * 2)
+                {
+                    var txt = File.ReadAllText(f.FullName);
+                    var pureName = Path.ChangeExtension(f.Name, null);
+                    FileDeleteSets.Add(pureName, txt);
+                    ListFileSets.Items.Add(pureName);
+                }
+                else
+                {
+                    Log($"跳过预设文件，因为文件过大 {f.FullName}");
+                }
+            }
         }
+
+        private void ButStart_Click(object sender, EventArgs e)
+        {
+            this.Enabled = false;
+            InputData.ReadFromFile();
+            InputData.SetValueFromControl(this.TxtTargetFiles);
+            InputData.SetValueFromControl(this.TxtWorkingDir);
+            InputData.SaveToFile();
+            var scanOnly = CheckScanOnly.Checked;
+            try
+            {
+                var p = Utils.MakeCleanPath(TxtWorkingDir.Text);
+                if (!Path.IsPathRooted(p)) { throw new Exception("工作文件夹路径必须是绝对路径"); }
+                var dirInfo = new DirectoryInfo(p);
+                if (!dirInfo.Exists) { throw new Exception($"工作文件夹不存在 {dirInfo.FullName}"); }
+                var targets = new List<string>();
+                ParseLines(targets, TxtTargetFiles.Text);
+                foreach (var raw in ListFileSets.CheckedItems)
+                {
+                    var key = raw.ToString();
+                    if (string.IsNullOrEmpty(key)) { continue; }
+                    FileDeleteSets.TryGetValue(key, out string? txt);
+                    if (string.IsNullOrWhiteSpace(txt)) { throw new Exception($"空白的预设 {key}"); }
+                    ParseLines(targets, txt);
+                    Application.DoEvents();
+                }
+                Log($"准备的需删除文件总条目 {targets.Count} 行，下面开始扫描");
+                var files = dirInfo.GetFiles("*", SearchOption.AllDirectories);
+                long totalSize = 0;
+                var toRemove = new List<FileInfo>();
+                foreach (var file in files)
+                {
+                    var relPath = Utils.MakeCleanPath(Path.GetRelativePath(dirInfo.FullName, file.FullName));
+                    if (targets.Contains(relPath.ToLower()))
+                    {
+                        toRemove.Add(file);
+                        totalSize += file.Length;
+                        Log(relPath);
+                    }
+                    Application.DoEvents();
+                }
+                Log($"实际需要删除 {toRemove.Count} 个文件，总计 {totalSize / 1024 / 1024:0.0} MB");
+                if (scanOnly)
+                {
+                    Log("扫描完成，不实际删除");
+                }
+                else
+                {
+                    Log($"下面开始实际删除");
+                    foreach (var file in toRemove)
+                    {
+                        file.Delete();
+                    }
+                    Log("删除完毕");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log($"失败 {ex.Message}");
+            }
+            Utils.MakeControlCooldown(this);
+        }
+
+        private static void ParseLines(List<string> list, string str)
+        {
+            var lines = str.Split('\n', '\r');
+            foreach (var rawline in lines)
+            {
+                var line = Utils.MakeCleanPath(rawline).ToLower();
+                if (line.Length > 0) { list.Add(line); }
+            }
+        }
+
     }
 }
