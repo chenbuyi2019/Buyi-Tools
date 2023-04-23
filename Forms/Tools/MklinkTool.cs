@@ -41,7 +41,7 @@ namespace BuyiTools.Tools
 
         private void ListFiles_SelectedIndexChanged(object sender, EventArgs e)
         {
-            labSelectedCount.Text = $"已勾选: {ListFiles.SelectedIndices.Count} / {ListFiles.Items.Count}";
+            labSelectedCount.Text = $"已勾选: {ListFiles.CheckedIndices.Count} / {ListFiles.Items.Count} ";
         }
 
         private void ButCreate_Click(object sender, EventArgs e)
