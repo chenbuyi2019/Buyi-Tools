@@ -32,7 +32,7 @@ namespace BuyiTools
             }
         }
 
-        private void Log(string str)
+        private void LogInternal(string str)
         {
             if (string.IsNullOrEmpty(str) || TxtLog.IsDisposed) { return; }
             Debug.WriteLine(str);
@@ -43,6 +43,11 @@ namespace BuyiTools
             }
             TxtLog.Select(TxtLog.TextLength, 0);
             TxtLog.ScrollToCaret();
+        }
+
+        private void Log(string str)
+        {
+            this.Invoke(LogInternal, str);
         }
 
         private void RegisterTool<T>(string name)
