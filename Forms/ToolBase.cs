@@ -19,14 +19,14 @@ namespace BuyiTools
         }
 
         public event EventHandler<string>? LogSent;
+        public event EventHandler<Exception>? GotError;
 
         /// <summary>
         /// 输出一条日志
         /// </summary>
         protected void Log(string msg)
         {
-            if (LogSent == null) { return; }
-            LogSent(this, msg);
+            LogSent?.Invoke(this, msg);
         }
 
         private string GetControlSaveKeyName(Control ct)
@@ -98,20 +98,35 @@ namespace BuyiTools
         /// </summary>
         protected Exception? DoWork(Action action)
         {
-            this.Enabled = false;
+            this.Invoke(() =>
+            {
+                this.Enabled = false;
+            });
             SaveControlsDataToFile();
             Exception? error = null;
             try
             {
                 action();
+                Log($"工作完成");
             }
             catch (Exception ex)
             {
                 error = ex;
                 Log($"出错 {ex.Message}");
+                GotError?.Invoke(this, ex);
             }
             Utils.CooldownControl(this);
             return error;
+        }
+
+        protected Task<Exception?> DoWorkAsync(Action action)
+        {
+            var t = new Task<Exception?>(() =>
+            {
+                return DoWork(action);
+            });
+            t.Start();
+            return t;
         }
 
     }

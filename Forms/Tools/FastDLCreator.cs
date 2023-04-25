@@ -46,7 +46,7 @@ namespace BuyiTools.Forms.Tools
 
         private void ButCopyPaths_Click(object sender, EventArgs e)
         {
-            DoWork(() =>
+            DoWorkAsync(() =>
             {
                 var data = MustGetTargetFileList();
                 var fileCount = data.Item2.Length;
@@ -58,14 +58,17 @@ namespace BuyiTools.Forms.Tools
                     var rel = Utils.CleanPath(Path.GetRelativePath(rootPath, file.FullName));
                     sb.AppendLine(rel);
                 }
-                Clipboard.SetText(sb.ToString());
-                Log("已将结果放入剪贴板中");
+                this.Invoke(() =>
+                {
+                    Clipboard.SetText(sb.ToString());
+                    Log("已将结果放入剪贴板中");
+                });
             });
         }
 
         private void ButMakeBz2_Click(object sender, EventArgs e)
         {
-            DoWork(() =>
+            DoWorkAsync(() =>
             {
                 var data = MustGetTargetFileList();
                 var fileCount = data.Item2.Length;
@@ -80,7 +83,6 @@ namespace BuyiTools.Forms.Tools
                 long totalLen2 = 0;
                 foreach (var rawfile in data.Item2)
                 {
-                    Application.DoEvents();
                     var rel = Utils.CleanPath(Path.GetRelativePath(rootPath, rawfile.FullName));
                     var outFilePath = Path.Combine(outDirPath, rel) + ".bz2";
                     var dir = Path.GetDirectoryName(outFilePath);
@@ -109,7 +111,7 @@ namespace BuyiTools.Forms.Tools
                     }
                     totalLen2 += len2;
                 }
-                Log($"工作完成 压缩前 {Utils.FormatBytesLength(totalLen)} 压缩后 {Utils.FormatBytesLength(totalLen2)}");
+                Log($"压缩前 {Utils.FormatBytesLength(totalLen)} 压缩后 {Utils.FormatBytesLength(totalLen2)}");
                 Log($"输出文件夹 {outDirPath}");
             });
         }

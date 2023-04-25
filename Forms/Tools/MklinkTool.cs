@@ -47,9 +47,9 @@ namespace BuyiTools.Forms.Tools
             labSelectedCount.Text = $"已勾选: {ListFiles.CheckedIndices.Count} / {ListFiles.Items.Count} ";
         }
 
-        private void ButCreate_Click(object sender, EventArgs e)
+        private async void ButCreate_Click(object sender, EventArgs e)
         {
-            var ex = this.DoWork(() =>
+            var ex = await DoWorkAsync(() =>
             {
                 var parentPath = Utils.CleanPath(TxtParentFolder.Text);
                 if (!Path.IsPathRooted(parentPath))
@@ -114,7 +114,6 @@ namespace BuyiTools.Forms.Tools
                 if (targets.Count < 1) { throw new Exception("没有目标文件夹，请一行写一个"); }
                 foreach (var dir in targets)
                 {
-                    Application.DoEvents();
                     foreach (var f in srcFiles)
                     {
                         var targetPath = Path.Combine(dir.FullName, f.Name);
@@ -126,7 +125,6 @@ namespace BuyiTools.Forms.Tools
                         File.CreateSymbolicLink(targetPath, f.FullName);
                         Log($"成功建立 {targetPath}");
                     }
-                    Application.DoEvents();
                     foreach (var f in srcDirs)
                     {
                         var targetPath = Path.Combine(dir.FullName, f.Name);

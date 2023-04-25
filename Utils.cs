@@ -81,6 +81,7 @@ namespace BuyiTools
                 if (form.IsDisposed) { return; }
                 form.Invoke(() =>
                 {
+                    if (ct.IsDisposed) { return; }
                     ct.Enabled = true;
                 });
             });

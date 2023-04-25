@@ -28,16 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            components = new System.ComponentModel.Container();
             TopMenu = new ToolStrip();
             MenuTools = new ToolStripDropDownButton();
             MenuAdvanced = new ToolStripDropDownButton();
             ButRestartAsAdmin = new ToolStripMenuItem();
+            LastErrorDetailToolStripMenuItem = new ToolStripMenuItem();
             MenuAbout = new ToolStripDropDownButton();
             githubUrlToolStripMenuItem = new ToolStripMenuItem();
             buildTimeToolStripMenuItem = new ToolStripMenuItem();
             TxtLog = new TextBox();
             PnTool = new Panel();
+            TimerMoveRandom = new System.Windows.Forms.Timer(components);
             TopMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -63,7 +65,7 @@
             // MenuAdvanced
             // 
             MenuAdvanced.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            MenuAdvanced.DropDownItems.AddRange(new ToolStripItem[] { ButRestartAsAdmin });
+            MenuAdvanced.DropDownItems.AddRange(new ToolStripItem[] { LastErrorDetailToolStripMenuItem, ButRestartAsAdmin });
             MenuAdvanced.ImageTransparentColor = Color.Magenta;
             MenuAdvanced.Name = "MenuAdvanced";
             MenuAdvanced.Size = new Size(52, 24);
@@ -72,15 +74,21 @@
             // ButRestartAsAdmin
             // 
             ButRestartAsAdmin.Name = "ButRestartAsAdmin";
-            ButRestartAsAdmin.Size = new Size(183, 24);
-            ButRestartAsAdmin.Text = "管理员权限重启";
+            ButRestartAsAdmin.Size = new Size(228, 24);
+            ButRestartAsAdmin.Text = "管理员权限重启本软件";
             ButRestartAsAdmin.Click += ButRestartAsAdmin_Click;
+            // 
+            // LastErrorDetailToolStripMenuItem
+            // 
+            LastErrorDetailToolStripMenuItem.Name = "LastErrorDetailToolStripMenuItem";
+            LastErrorDetailToolStripMenuItem.Size = new Size(213, 24);
+            LastErrorDetailToolStripMenuItem.Text = "查看最近的错误细节";
+            LastErrorDetailToolStripMenuItem.Click += LastErrorDetailToolStripMenuItem_Click;
             // 
             // MenuAbout
             // 
             MenuAbout.DisplayStyle = ToolStripItemDisplayStyle.Text;
             MenuAbout.DropDownItems.AddRange(new ToolStripItem[] { githubUrlToolStripMenuItem, buildTimeToolStripMenuItem });
-            MenuAbout.Image = (Image)resources.GetObject("MenuAbout.Image");
             MenuAbout.ImageTransparentColor = Color.Magenta;
             MenuAbout.Name = "MenuAbout";
             MenuAbout.Size = new Size(52, 24);
@@ -119,6 +127,12 @@
             PnTool.Size = new Size(580, 134);
             PnTool.TabIndex = 2;
             // 
+            // TimerMoveRandom
+            // 
+            TimerMoveRandom.Enabled = true;
+            TimerMoveRandom.Interval = 150;
+            TimerMoveRandom.Tick += TimerMoveRandom_Tick;
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -133,7 +147,10 @@
             Margin = new Padding(4);
             MaximizeBox = false;
             Name = "MainForm";
+            Opacity = 0D;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "布衣工具箱";
+            FormClosed += MainForm_FormClosed;
             Load += MainForm_Load;
             TopMenu.ResumeLayout(false);
             TopMenu.PerformLayout();
@@ -151,5 +168,7 @@
         private ToolStripDropDownButton MenuAbout;
         private ToolStripMenuItem githubUrlToolStripMenuItem;
         private ToolStripMenuItem buildTimeToolStripMenuItem;
+        private ToolStripMenuItem LastErrorDetailToolStripMenuItem;
+        private System.Windows.Forms.Timer TimerMoveRandom;
     }
 }

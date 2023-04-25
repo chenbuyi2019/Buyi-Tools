@@ -44,7 +44,7 @@ namespace BuyiTools.Forms.Tools
 
         private void ButStart_Click(object sender, EventArgs e)
         {
-            DoWork(() =>
+            DoWorkAsync(() =>
             {
                 var scanOnly = CheckScanOnly.Checked;
                 var p = Utils.CleanPath(TxtWorkingDir.Text);
@@ -60,7 +60,6 @@ namespace BuyiTools.Forms.Tools
                     FileDeleteSets.TryGetValue(key, out string? txt);
                     if (string.IsNullOrWhiteSpace(txt)) { throw new Exception($"空白的预设 {key}"); }
                     ParseLines(targets, txt);
-                    Application.DoEvents();
                 }
                 Log($"准备的需删除文件总条目 {targets.Count} 行，下面开始扫描");
                 var files = dirInfo.GetFiles("*", SearchOption.AllDirectories);
@@ -75,7 +74,6 @@ namespace BuyiTools.Forms.Tools
                         totalSize += file.Length;
                         Log(relPath);
                     }
-                    Application.DoEvents();
                 }
                 Log($"实际需要删除 {toRemove.Count} 个文件，总计 {totalSize / 1024 / 1024:0.0} MB");
                 if (scanOnly)

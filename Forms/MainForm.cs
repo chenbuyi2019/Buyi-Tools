@@ -14,8 +14,8 @@ namespace BuyiTools
         }
 
         private readonly Dictionary<string, Type> tools = new();
-
         private string? currentToolName;
+        private Exception? lastError = null;
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -30,6 +30,15 @@ namespace BuyiTools
                 var toolName = args[1];
                 OpenToolByName(toolName);
             }
+        }
+
+        private void TimerMoveRandom_Tick(object sender, EventArgs e)
+        {
+            TimerMoveRandom.Dispose();
+            var r = new Random();
+            this.Left -= r.Next(-100, 100);
+            this.Top -= r.Next(-100, 100);
+            this.Opacity = 1;
         }
 
         private void LogInternal(string str)
@@ -61,6 +70,19 @@ namespace BuyiTools
             };
         }
 
+        private void LastErrorDetailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var but = MessageBoxButtons.OK;
+            if (lastError == null)
+            {
+                MessageBox.Show("还没有任何错误发生", this.Text, but, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show(lastError.ToString(), this.Text, but, MessageBoxIcon.Error);
+            }
+        }
+
         private void OpenToolByName(string name)
         {
             if (!string.IsNullOrWhiteSpace(currentToolName))
@@ -84,6 +106,10 @@ namespace BuyiTools
             tool.LogSent += (object? sender, string msg) =>
             {
                 Log(msg);
+            };
+            tool.GotError += (object? sender, Exception e) =>
+            {
+                this.lastError = e;
             };
         }
 
@@ -124,5 +150,11 @@ namespace BuyiTools
         {
             using var proc = Process.Start("explorer.exe", "https://github.com/chenbuyi2019/Buyi-Tools");
         }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
     }
 }
