@@ -1,13 +1,16 @@
 ﻿
-namespace BuyiTools.Tools
+namespace BuyiTools.Forms.Tools
 {
     public partial class MklinkTool : ToolBase
     {
         public MklinkTool()
         {
             InitializeComponent();
-            InputData.GetValueToControl(TxtParentFolder);
-            InputData.GetValueToControl(TxtTargetFolders);
+        }
+
+        private void MklinkTool_Load(object sender, EventArgs e)
+        {
+            RegisterContorlSaveData(TxtParentFolder, TxtTargetFolders);
         }
 
         private void TxtParentFolder_TextChanged(object sender, EventArgs e)
@@ -17,10 +20,10 @@ namespace BuyiTools.Tools
 
         private void ButRefreshFileList_Click(object sender, EventArgs e)
         {
-            ListFiles.Items.Clear();
-            var t = Utils.MakeCleanPath(TxtParentFolder.Text);
             try
             {
+                ListFiles.Items.Clear();
+                var t = Utils.CleanPath(TxtParentFolder.Text);
                 if (!Path.IsPathRooted(t))
                 {
                     throw new Exception("请写绝对路径");
@@ -34,7 +37,7 @@ namespace BuyiTools.Tools
             }
             catch (Exception ex)
             {
-                this.Log($"失败 {ex.Message}");
+                Log($"扫描出错 {ex.Message}");
             }
             ListFiles_SelectedIndexChanged(sender, e);
         }
@@ -46,14 +49,9 @@ namespace BuyiTools.Tools
 
         private void ButCreate_Click(object sender, EventArgs e)
         {
-            this.Enabled = false;
-            InputData.ReadFromFile();
-            InputData.SetValueFromControl(TxtParentFolder);
-            InputData.SetValueFromControl(TxtTargetFolders);
-            InputData.SaveToFile();
-            try
+            var ex = this.DoWork(() =>
             {
-                var parentPath = Utils.MakeCleanPath(TxtParentFolder.Text);
+                var parentPath = Utils.CleanPath(TxtParentFolder.Text);
                 if (!Path.IsPathRooted(parentPath))
                 {
                     throw new Exception("母体文件夹应该是绝对路径");
@@ -99,7 +97,7 @@ namespace BuyiTools.Tools
                 var targets = new List<DirectoryInfo>();
                 foreach (var rawline in targetLines)
                 {
-                    var line = Utils.MakeCleanPath(rawline);
+                    var line = Utils.CleanPath(rawline);
                     if (line.Length < 1) { continue; }
                     if (!Path.IsPathRooted(line)) { throw new Exception($"必须写完整路径，不能使用相对路径 {line}"); }
                     var dir = new DirectoryInfo(line);
@@ -141,16 +139,12 @@ namespace BuyiTools.Tools
                         Log($"成功建立 {targetPath}");
                     }
                 }
-            }
-            catch (Exception ex)
+            });
+            if (ex != null && ex.Source != null && ex.Source.Contains("System.Private.CoreLib", Utils.IgnoreCase))
             {
-                Log($"失败: {ex.Message}");
-                if (ex.Source != null && ex.Source.Contains("System.Private.CoreLib", Utils.IgnoreCase))
-                {
-                    Log($"请尝试用管理员权限运行本软件 {ex.Source}");
-                }
+                Log($"请尝试用管理员权限运行本软件 {ex.Source}");
             }
-            Utils.MakeControlCooldown(this);
         }
+
     }
 }

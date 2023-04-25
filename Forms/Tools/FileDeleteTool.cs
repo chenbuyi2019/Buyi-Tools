@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BuyiTools.Tools
+namespace BuyiTools.Forms.Tools
 {
     public partial class FileDeleteTool : ToolBase
     {
@@ -23,8 +23,7 @@ namespace BuyiTools.Tools
 
         private void FileDeleteTool_Load(object sender, EventArgs e)
         {
-            InputData.GetValueToControl(this.TxtTargetFiles);
-            InputData.GetValueToControl(this.TxtWorkingDir);
+            RegisterContorlSaveData(TxtTargetFiles, TxtWorkingDir);
             var dir = new DirectoryInfo(FileDeleteSetsDir);
             var files = dir.GetFiles("*.txt", SearchOption.TopDirectoryOnly);
             foreach (var f in files)
@@ -45,15 +44,10 @@ namespace BuyiTools.Tools
 
         private void ButStart_Click(object sender, EventArgs e)
         {
-            this.Enabled = false;
-            InputData.ReadFromFile();
-            InputData.SetValueFromControl(this.TxtTargetFiles);
-            InputData.SetValueFromControl(this.TxtWorkingDir);
-            InputData.SaveToFile();
-            var scanOnly = CheckScanOnly.Checked;
-            try
+            DoWork(() =>
             {
-                var p = Utils.MakeCleanPath(TxtWorkingDir.Text);
+                var scanOnly = CheckScanOnly.Checked;
+                var p = Utils.CleanPath(TxtWorkingDir.Text);
                 if (!Path.IsPathRooted(p)) { throw new Exception("工作文件夹路径必须是绝对路径"); }
                 var dirInfo = new DirectoryInfo(p);
                 if (!dirInfo.Exists) { throw new Exception($"工作文件夹不存在 {dirInfo.FullName}"); }
@@ -74,7 +68,7 @@ namespace BuyiTools.Tools
                 var toRemove = new List<FileInfo>();
                 foreach (var file in files)
                 {
-                    var relPath = Utils.MakeCleanPath(Path.GetRelativePath(dirInfo.FullName, file.FullName));
+                    var relPath = Utils.CleanPath(Path.GetRelativePath(dirInfo.FullName, file.FullName));
                     if (targets.Contains(relPath.ToLower()))
                     {
                         toRemove.Add(file);
@@ -97,12 +91,7 @@ namespace BuyiTools.Tools
                     }
                     Log("删除完毕");
                 }
-            }
-            catch (Exception ex)
-            {
-                Log($"失败 {ex.Message}");
-            }
-            Utils.MakeControlCooldown(this);
+            });
         }
 
         private static void ParseLines(List<string> list, string str)
@@ -110,7 +99,7 @@ namespace BuyiTools.Tools
             var lines = str.Split('\n', '\r');
             foreach (var rawline in lines)
             {
-                var line = Utils.MakeCleanPath(rawline).ToLower();
+                var line = Utils.CleanPath(rawline).ToLower();
                 if (line.Length > 0) { list.Add(line); }
             }
         }

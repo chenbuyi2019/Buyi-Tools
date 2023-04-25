@@ -38,7 +38,6 @@
             buildTimeToolStripMenuItem = new ToolStripMenuItem();
             TxtLog = new TextBox();
             PnTool = new Panel();
-            frameworkVersionToolStripMenuItem = new ToolStripMenuItem();
             TopMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -80,7 +79,7 @@
             // MenuAbout
             // 
             MenuAbout.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            MenuAbout.DropDownItems.AddRange(new ToolStripItem[] { githubUrlToolStripMenuItem, buildTimeToolStripMenuItem, frameworkVersionToolStripMenuItem });
+            MenuAbout.DropDownItems.AddRange(new ToolStripItem[] { githubUrlToolStripMenuItem, buildTimeToolStripMenuItem });
             MenuAbout.Image = (Image)resources.GetObject("MenuAbout.Image");
             MenuAbout.ImageTransparentColor = Color.Magenta;
             MenuAbout.Name = "MenuAbout";
@@ -90,14 +89,14 @@
             // githubUrlToolStripMenuItem
             // 
             githubUrlToolStripMenuItem.Name = "githubUrlToolStripMenuItem";
-            githubUrlToolStripMenuItem.Size = new Size(214, 24);
+            githubUrlToolStripMenuItem.Size = new Size(184, 24);
             githubUrlToolStripMenuItem.Text = "源码 on Github";
             githubUrlToolStripMenuItem.Click += GithubUrlToolStripMenuItem_Click;
             // 
             // buildTimeToolStripMenuItem
             // 
             buildTimeToolStripMenuItem.Name = "buildTimeToolStripMenuItem";
-            buildTimeToolStripMenuItem.Size = new Size(214, 24);
+            buildTimeToolStripMenuItem.Size = new Size(184, 24);
             buildTimeToolStripMenuItem.Text = "编译时间";
             // 
             // TxtLog
@@ -119,12 +118,6 @@
             PnTool.Name = "PnTool";
             PnTool.Size = new Size(580, 134);
             PnTool.TabIndex = 2;
-            // 
-            // frameworkVersionToolStripMenuItem
-            // 
-            frameworkVersionToolStripMenuItem.Name = "frameworkVersionToolStripMenuItem";
-            frameworkVersionToolStripMenuItem.Size = new Size(214, 24);
-            frameworkVersionToolStripMenuItem.Text = "FrameworkVersion";
             // 
             // MainForm
             // 
@@ -158,6 +151,5 @@
         private ToolStripDropDownButton MenuAbout;
         private ToolStripMenuItem githubUrlToolStripMenuItem;
         private ToolStripMenuItem buildTimeToolStripMenuItem;
-        private ToolStripMenuItem frameworkVersionToolStripMenuItem;
     }
 }

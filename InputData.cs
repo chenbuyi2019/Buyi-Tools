@@ -18,21 +18,20 @@ namespace BuyiTools
 
         public static void ReadFromFile()
         {
-            try
-            {
-                if (!File.Exists(configPath)) { return; }
-                var j = File.ReadAllText(configPath);
-                var d = JsonSerializer.Deserialize<Dictionary<string, string>>(j);
-                if (d == null) { return; }
-                dict = d;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"无法读取配置 {ex}");
-            }
+            if (!File.Exists(configPath)) { return; }
+            var j = File.ReadAllText(configPath);
+            var d = JsonSerializer.Deserialize<Dictionary<string, string>>(j);
+            if (d == null) { return; }
+            dict = d;
         }
 
-        public static string GetValue(string key, string? fallback = null)
+        public static void SaveToFile()
+        {
+            var j = JsonSerializer.Serialize(dict);
+            File.WriteAllText(configPath, j);
+        }
+
+        public static string GetString(string key, string? fallback = null)
         {
             if (fallback == null) { fallback = string.Empty; }
             if (string.IsNullOrWhiteSpace(key)) { return fallback; }
@@ -41,7 +40,7 @@ namespace BuyiTools
             return value;
         }
 
-        public static void SetValue(string key, string value)
+        public static void SetString(string key, string value)
         {
             if (string.IsNullOrWhiteSpace(key)) { return; }
             dict.Remove(key);
@@ -49,41 +48,16 @@ namespace BuyiTools
             dict.Add(key, value);
         }
 
-        private static string GetControlKeyName(Control ct)
+        public static decimal GetNumber(string key, decimal fallback = 0)
         {
-            if (ct.IsDisposed) { return string.Empty; }
-            var parent = ct.Parent;
-            if (parent == null || parent.IsDisposed) { return string.Empty; }
-            return $"{parent.GetType().Name}-{ct.Name}";
+            var str = GetString(key);
+            if (str.Length > 0 && decimal.TryParse(str, out decimal num)) { return num; }
+            return fallback;
         }
 
-        public static string GetValueToControl(Control ct, string? fallback = null)
+        public static void SetNumber(string key, decimal value)
         {
-            var key = GetControlKeyName(ct);
-            var value = GetValue(key, fallback);
-            ct.Text = value;
-            return value;
-        }
-
-        public static void SetValueFromControl(Control ct, string? fallback = null)
-        {
-            if (ct.IsDisposed) { return; }
-            var value = ct.Text;
-            var key = GetControlKeyName(ct);
-            SetValue(key, value);
-        }
-
-        public static void SaveToFile()
-        {
-            try
-            {
-                var j = JsonSerializer.Serialize(dict);
-                File.WriteAllText(configPath, j);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"无法保存配置 {ex}");
-            }
+            SetString(key, value.ToString());
         }
 
     }

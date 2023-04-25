@@ -1,4 +1,4 @@
-﻿namespace BuyiTools.Tools
+﻿namespace BuyiTools.Forms.Tools
 {
     partial class FileDeleteTool
     {

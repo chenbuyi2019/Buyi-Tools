@@ -1,4 +1,4 @@
-﻿using BuyiTools.Tools;
+﻿using BuyiTools.Forms.Tools;
 using System.Diagnostics;
 using System.Resources;
 using System.Xml.Linq;
@@ -21,9 +21,9 @@ namespace BuyiTools
         {
             InputData.ReadFromFile();
             buildTimeToolStripMenuItem.Text = $"编译时间 {Properties.Resources.BuildDate.Trim()}";
-            frameworkVersionToolStripMenuItem.Text = $"平台 {AppContext.TargetFrameworkName}";
             RegisterTool<MklinkTool>("量产 Mklink");
             RegisterTool<FileDeleteTool>("删除相对文件");
+            RegisterTool<FastDLCreator>("FastDL 生成");
             var args = Environment.GetCommandLineArgs();
             if (args != null && args.Length > 1)
             {
@@ -34,7 +34,7 @@ namespace BuyiTools
 
         private void Log(string str)
         {
-            if (string.IsNullOrEmpty(str)) { return; }
+            if (string.IsNullOrEmpty(str) || TxtLog.IsDisposed) { return; }
             Debug.WriteLine(str);
             TxtLog.AppendText(str + "\r\n");
             if (TxtLog.TextLength > 9999)

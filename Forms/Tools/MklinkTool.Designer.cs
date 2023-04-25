@@ -1,4 +1,4 @@
-﻿namespace BuyiTools.Tools
+﻿namespace BuyiTools.Forms.Tools
 {
     partial class MklinkTool
     {
@@ -152,6 +152,7 @@
             Controls.Add(label1);
             Name = "MklinkTool";
             Size = new Size(865, 419);
+            Load += MklinkTool_Load;
             ResumeLayout(false);
             PerformLayout();
         }

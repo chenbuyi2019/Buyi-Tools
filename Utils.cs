@@ -18,7 +18,7 @@ namespace BuyiTools
         /// <summary>
         /// 把字符串转化为采用 linux 风格的/斜杠，并去掉头尾的双引号、空格的路径
         /// </summary>
-        public static string MakeCleanPath(string str)
+        public static string CleanPath(string str)
         {
             if (string.IsNullOrWhiteSpace(str)) { return string.Empty; }
             return str.Trim().Replace("\\", "/").Replace("\"", "").Trim('/');
@@ -70,7 +70,7 @@ namespace BuyiTools
         /// <summary>
         /// 把控件 Enabled 设为 false ，然后在几秒后恢复为 true
         /// </summary>
-        public static void MakeControlCooldown(Control ct, int timeoutMs = 1500)
+        public static void CooldownControl(Control ct, int timeoutMs = 1500)
         {
             if (timeoutMs < 1) { return; }
             var form = ct.FindForm();
@@ -89,6 +89,38 @@ namespace BuyiTools
             {
                 ct.Enabled = false;
             });
+        }
+
+        /// <summary>
+        /// 美化输出字节长度，比如 0B 15.1KB 50.1MB
+        /// </summary>
+        public static string FormatBytesLength(long len)
+        {
+            if (len < 0) { len = -len; }
+            if (len < 800) { return $"{len}B"; }
+            double v = Convert.ToDouble(len);
+            v /= 1024;
+            if (v < 800) { return $"{v:0.0}KB"; }
+            v /= 1024;
+            if (v < 1600) { return $"{v:0.0}MB"; }
+            v /= 1024;
+            return $"{v:0.0}GB";
+        }
+
+        /// <summary>
+        /// 直接获取一个文件的大小，如果不存在或无法读取文件会返回-1
+        /// </summary>
+        public static long GetFileLength(string filename)
+        {
+            try
+            {
+                var info = new FileInfo(filename);
+                return info.Length;
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
         }
     }
 }
