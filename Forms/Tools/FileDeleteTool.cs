@@ -75,7 +75,7 @@ namespace BuyiTools.Forms.Tools
                         Log(relPath);
                     }
                 }
-                Log($"实际需要删除 {toRemove.Count} 个文件，总计 {totalSize / 1024 / 1024:0.0} MB");
+                Log($"实际需要删除 {toRemove.Count} 个文件，总计 {Utils.FormatBytesLength(totalSize)}");
                 if (scanOnly)
                 {
                     Log("扫描完成，不实际删除");
