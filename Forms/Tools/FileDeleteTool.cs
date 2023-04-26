@@ -24,6 +24,7 @@ namespace BuyiTools.Forms.Tools
         private void FileDeleteTool_Load(object sender, EventArgs e)
         {
             RegisterContorlSaveData(TxtTargetFiles, TxtWorkingDir);
+            RegisterTextboxDropFilePath(TxtWorkingDir);
             var dir = new DirectoryInfo(FileDeleteSetsDir);
             var files = dir.GetFiles("*.txt", SearchOption.TopDirectoryOnly);
             foreach (var f in files)

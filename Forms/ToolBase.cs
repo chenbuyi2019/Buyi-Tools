@@ -37,7 +37,7 @@ namespace BuyiTools
             return $"{this.Name}-{ct.Name}".ToLower();
         }
 
-        private readonly List<Control> RegisteredContorls = new();
+        private readonly List<Control> RegisteredAutoSaveContorls = new();
 
         /// <summary>
         /// 注册控件，注册时会读取上次保存的信息，然后在操作工具的按钮时自动保存信息
@@ -62,17 +62,51 @@ namespace BuyiTools
                     ok = false;
                     Log($"无法注册控件自动保存 {ct.Name} {ct.GetType().FullName}");
                 }
-                if (ok) { RegisteredContorls.Add(ct); }
+                if (ok) { RegisteredAutoSaveContorls.Add(ct); }
+            }
+        }
+
+        /// <summary>
+        /// 注册文本框控件，允许他们可以被拖拽放置文件、文件夹列表
+        /// </summary>
+        protected static void RegisterTextboxDropFilePath(params TextBoxBase[] controls)
+        {
+            void OnDragOver(object? sender, DragEventArgs e)
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            void OnDragDrop(object? sender, DragEventArgs e)
+            {
+                if (sender == null || sender is not TextBoxBase) { return; }
+                var txt = (TextBoxBase)sender;
+                var data = e.Data?.GetData(DataFormats.FileDrop);
+                if (data == null || data is not IEnumerable<string>) { return; }
+                var array = (IEnumerable<string>)data;
+                var sb = new StringBuilder();
+                foreach (var v in array)
+                {
+                    if (string.IsNullOrEmpty(v)) { continue; }
+                    if (sb.Length > 0) { sb.AppendLine(); }
+                    sb.Append(v);
+                    if (!txt.Multiline) { break; }
+                }
+                if (sb.Length > 0) { txt.Text = sb.ToString(); }
+            }
+            foreach (var ct in controls)
+            {
+                ct.AllowDrop = true;
+                ct.DragOver += OnDragOver;
+                ct.DragDrop += OnDragDrop;
             }
         }
 
         protected void SaveControlsDataToFile()
         {
-            if (RegisteredContorls.Count < 1) { return; }
+            if (RegisteredAutoSaveContorls.Count < 1) { return; }
             try
             {
                 InputData.ReadFromFile();
-                foreach (var ct in RegisteredContorls)
+                foreach (var ct in RegisteredAutoSaveContorls)
                 {
                     var key = GetControlSaveKeyName(ct);
                     if (ct is TextBoxBase)

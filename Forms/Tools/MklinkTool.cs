@@ -11,6 +11,7 @@ namespace BuyiTools.Forms.Tools
         private void MklinkTool_Load(object sender, EventArgs e)
         {
             RegisterContorlSaveData(TxtParentFolder, TxtTargetFolders);
+            RegisterTextboxDropFilePath(TxtParentFolder, TxtTargetFolders);
         }
 
         private void TxtParentFolder_TextChanged(object sender, EventArgs e)

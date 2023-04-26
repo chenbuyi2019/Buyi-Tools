@@ -21,6 +21,7 @@ namespace BuyiTools.Forms.Tools
         private void FastDLCreator_Load(object sender, EventArgs e)
         {
             RegisterContorlSaveData(TxtTarget, TxtMaxCompressSize);
+            RegisterTextboxDropFilePath(TxtTarget);
         }
 
         private static readonly EnumerationOptions enumerationDirOptions = new()
