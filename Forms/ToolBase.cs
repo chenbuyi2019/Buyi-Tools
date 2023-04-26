@@ -16,7 +16,22 @@ namespace BuyiTools
         {
             InitializeComponent();
             this.DoubleBuffered = true;
+            this.Load += (object? sender, EventArgs e) =>
+            {
+                foreach (var obj in this.Controls)
+                {
+                    if (obj is CheckedListBox)
+                    {
+                        var ct = (CheckedListBox)obj;
+                        if (ct.ContextMenuStrip == null)
+                        {
+                            ct.ContextMenuStrip = MenuCheckBoxList;
+                        }
+                    }
+                }
+            };
         }
+
         #region 日志
         public event EventHandler<string>? LogSent;
 
@@ -209,11 +224,81 @@ namespace BuyiTools
             }
         }
 
+        private CheckedListBox? GetCheckBoxListForMenu()
+        {
+            var ct = MenuCheckBoxList.SourceControl;
+            if (ct == null || ct.Disposing || ct.IsDisposed || !ct.Enabled || ct is not CheckedListBox) { return null; }
+            var ls = (CheckedListBox)ct;
+            return ls;
+        }
+
+        private void DealWithCheckBoxMenu(int act)
+        {
+            var ct = GetCheckBoxListForMenu();
+            if (ct == null || ct.Items.Count < 1) { return; }
+            var count = ct.Items.Count;
+            for (int i = 0; i < count; i++)
+            {
+                switch (act)
+                {
+                    case 1:
+                        ct.SetItemChecked(i, true);
+                        break;
+                    case 2:
+                        ct.SetItemChecked(i, false);
+                        break;
+                    case 3:
+                        var old = ct.GetItemChecked(i);
+                        ct.SetItemChecked(i, !old);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
         private void CheckAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var p = MenuCheckBoxList.Parent;
-            Log($"parent: {p}");
+            DealWithCheckBoxMenu(1);
+        }
+
+        private void UncheckAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DealWithCheckBoxMenu(2);
+        }
+
+        private void CheckInvertToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DealWithCheckBoxMenu(3);
+        }
+
+        private void ViewCheckedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var ct = GetCheckBoxListForMenu();
+            if (ct == null) { return; }
+            var sb = new StringBuilder();
+            var count = ct.CheckedItems.Count;
+            foreach (var item in ct.CheckedItems)
+            {
+                if (item == null) { continue; }
+                sb.AppendLine();
+                var s = item.ToString();
+                if (string.IsNullOrEmpty(s))
+                {
+                    s = "_";
+                }
+                else if (s.Length > 40)
+                {
+                    s = s.Substring(0, 30) + "...";
+                };
+                s = s.Replace("\r\n", " ").Replace("\r", " ").Replace("\n", " ");
+                sb.Append(s);
+            }
+            var title = this.FindForm()?.Text;
+            if (title == null) { title = "布衣工具箱"; }
+            MessageBox.Show($"一共打勾了 {count} 项\n{sb}", title, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         #endregion
+
     }
 }

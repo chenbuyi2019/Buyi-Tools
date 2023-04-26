@@ -27,6 +27,7 @@ namespace BuyiTools.Forms.Tools
             RegisterTextboxDropFilePath(TxtWorkingDir);
             var dir = new DirectoryInfo(FileDeleteSetsDir);
             var files = dir.GetFiles("*.txt", SearchOption.TopDirectoryOnly);
+            ListFileSets.BeginUpdate();
             foreach (var f in files)
             {
                 if (f.Length > 0 && f.Length < 1024 * 1024 * 2)
@@ -41,6 +42,7 @@ namespace BuyiTools.Forms.Tools
                     Log($"跳过预设文件，因为文件过大 {f.FullName}");
                 }
             }
+            ListFileSets.EndUpdate();
         }
 
         private void ButStart_Click(object sender, EventArgs e)

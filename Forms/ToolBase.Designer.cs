@@ -56,18 +56,21 @@
             UncheckAllToolStripMenuItem.Name = "UncheckAllToolStripMenuItem";
             UncheckAllToolStripMenuItem.Size = new Size(180, 22);
             UncheckAllToolStripMenuItem.Text = "全不打勾";
+            UncheckAllToolStripMenuItem.Click += UncheckAllToolStripMenuItem_Click;
             // 
             // CheckInvertToolStripMenuItem
             // 
             CheckInvertToolStripMenuItem.Name = "CheckInvertToolStripMenuItem";
             CheckInvertToolStripMenuItem.Size = new Size(180, 22);
             CheckInvertToolStripMenuItem.Text = "反打勾";
+            CheckInvertToolStripMenuItem.Click += CheckInvertToolStripMenuItem_Click;
             // 
             // ViewCheckedToolStripMenuItem
             // 
             ViewCheckedToolStripMenuItem.Name = "ViewCheckedToolStripMenuItem";
             ViewCheckedToolStripMenuItem.Size = new Size(180, 22);
             ViewCheckedToolStripMenuItem.Text = "查看已勾选的项目";
+            ViewCheckedToolStripMenuItem.Click += ViewCheckedToolStripMenuItem_Click;
             // 
             // ToolBase
             // 
@@ -82,11 +85,10 @@
         }
 
         #endregion
-
-        private ContextMenuStrip MenuCheckBoxList;
         private ToolStripMenuItem CheckAllToolStripMenuItem;
         private ToolStripMenuItem UncheckAllToolStripMenuItem;
         private ToolStripMenuItem CheckInvertToolStripMenuItem;
         private ToolStripMenuItem ViewCheckedToolStripMenuItem;
+        private ContextMenuStrip MenuCheckBoxList;
     }
 }
