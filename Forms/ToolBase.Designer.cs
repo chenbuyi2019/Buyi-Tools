@@ -28,7 +28,46 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
+            MenuCheckBoxList = new ContextMenuStrip(components);
+            CheckAllToolStripMenuItem = new ToolStripMenuItem();
+            UncheckAllToolStripMenuItem = new ToolStripMenuItem();
+            CheckInvertToolStripMenuItem = new ToolStripMenuItem();
+            ViewCheckedToolStripMenuItem = new ToolStripMenuItem();
+            MenuCheckBoxList.SuspendLayout();
             SuspendLayout();
+            // 
+            // MenuCheckBoxList
+            // 
+            MenuCheckBoxList.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            MenuCheckBoxList.Items.AddRange(new ToolStripItem[] { CheckAllToolStripMenuItem, UncheckAllToolStripMenuItem, CheckInvertToolStripMenuItem, ViewCheckedToolStripMenuItem });
+            MenuCheckBoxList.Name = "MenuCheckBoxList";
+            MenuCheckBoxList.Size = new Size(181, 114);
+            // 
+            // CheckAllToolStripMenuItem
+            // 
+            CheckAllToolStripMenuItem.Name = "CheckAllToolStripMenuItem";
+            CheckAllToolStripMenuItem.Size = new Size(180, 22);
+            CheckAllToolStripMenuItem.Text = "全打勾";
+            CheckAllToolStripMenuItem.Click += CheckAllToolStripMenuItem_Click;
+            // 
+            // UncheckAllToolStripMenuItem
+            // 
+            UncheckAllToolStripMenuItem.Name = "UncheckAllToolStripMenuItem";
+            UncheckAllToolStripMenuItem.Size = new Size(180, 22);
+            UncheckAllToolStripMenuItem.Text = "全不打勾";
+            // 
+            // CheckInvertToolStripMenuItem
+            // 
+            CheckInvertToolStripMenuItem.Name = "CheckInvertToolStripMenuItem";
+            CheckInvertToolStripMenuItem.Size = new Size(180, 22);
+            CheckInvertToolStripMenuItem.Text = "反打勾";
+            // 
+            // ViewCheckedToolStripMenuItem
+            // 
+            ViewCheckedToolStripMenuItem.Name = "ViewCheckedToolStripMenuItem";
+            ViewCheckedToolStripMenuItem.Size = new Size(180, 22);
+            ViewCheckedToolStripMenuItem.Text = "查看已勾选的项目";
             // 
             // ToolBase
             // 
@@ -38,9 +77,16 @@
             Font = new Font("Microsoft YaHei UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             Name = "ToolBase";
             Size = new Size(289, 138);
+            MenuCheckBoxList.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
+
+        private ContextMenuStrip MenuCheckBoxList;
+        private ToolStripMenuItem CheckAllToolStripMenuItem;
+        private ToolStripMenuItem UncheckAllToolStripMenuItem;
+        private ToolStripMenuItem CheckInvertToolStripMenuItem;
+        private ToolStripMenuItem ViewCheckedToolStripMenuItem;
     }
 }
