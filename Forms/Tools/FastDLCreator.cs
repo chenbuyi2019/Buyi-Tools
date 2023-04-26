@@ -54,8 +54,10 @@ namespace BuyiTools.Forms.Tools
                 Log($"扫描到 {fileCount} 个文件");
                 var sb = new StringBuilder();
                 var rootPath = data.Item1.FullName;
+                SetFullProgress(fileCount);
                 foreach (var file in data.Item2)
                 {
+                    AddProgress();
                     var rel = Utils.CleanPath(Path.GetRelativePath(rootPath, file.FullName));
                     sb.AppendLine(rel);
                 }
@@ -82,8 +84,10 @@ namespace BuyiTools.Forms.Tools
                 var sizeLimit = TxtMaxCompressSize.Value * 1024 * 1024;
                 long totalLen = 0;
                 long totalLen2 = 0;
+                SetFullProgress(fileCount);
                 foreach (var rawfile in data.Item2)
                 {
+                    AddProgress();
                     var rel = Utils.CleanPath(Path.GetRelativePath(rootPath, rawfile.FullName));
                     var outFilePath = Path.Combine(outDirPath, rel) + ".bz2";
                     var dir = Path.GetDirectoryName(outFilePath);
@@ -112,7 +116,7 @@ namespace BuyiTools.Forms.Tools
                     }
                     totalLen2 += len2;
                 }
-                Log($"压缩前 {Utils.FormatBytesLength(totalLen)} 压缩后 {Utils.FormatBytesLength(totalLen2)}");
+                Log($"总计 压缩前 {Utils.FormatBytesLength(totalLen)} 压缩后 {Utils.FormatBytesLength(totalLen2)}");
                 Log($"输出文件夹 {outDirPath}");
             });
         }

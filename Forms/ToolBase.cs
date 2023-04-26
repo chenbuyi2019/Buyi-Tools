@@ -132,6 +132,7 @@ namespace BuyiTools
         /// </summary>
         protected Exception? DoWork(Action action)
         {
+            SetFullProgress(0);
             this.Invoke(() =>
             {
                 this.Enabled = false;
@@ -163,5 +164,32 @@ namespace BuyiTools
             return t;
         }
 
+        private long fullProgress = 0;
+        private long currentProgress = 0;
+
+        /// <summary>
+        /// 工作的进度，是 0.00 - 1.00 之间的一个小数
+        /// </summary>
+        public double WorkProgress
+        {
+            get
+            {
+                if (fullProgress < 1) { return 0; }
+                if (currentProgress > fullProgress) { return 1; }
+                return Convert.ToDouble(currentProgress) / Convert.ToDouble(fullProgress);
+            }
+        }
+
+        protected void SetFullProgress(long num)
+        {
+            currentProgress = 0;
+            fullProgress = num < 1 ? 0 : num;
+        }
+
+        protected void AddProgress(long add = 1)
+        {
+            if (add < 1) { return; }
+            currentProgress = Math.Min(add + currentProgress, fullProgress);
+        }
     }
 }

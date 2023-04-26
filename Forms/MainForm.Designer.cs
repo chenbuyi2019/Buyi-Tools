@@ -32,14 +32,16 @@
             TopMenu = new ToolStrip();
             MenuTools = new ToolStripDropDownButton();
             MenuAdvanced = new ToolStripDropDownButton();
-            ButRestartAsAdmin = new ToolStripMenuItem();
             LastErrorDetailToolStripMenuItem = new ToolStripMenuItem();
+            ButRestartAsAdmin = new ToolStripMenuItem();
             MenuAbout = new ToolStripDropDownButton();
             githubUrlToolStripMenuItem = new ToolStripMenuItem();
             buildTimeToolStripMenuItem = new ToolStripMenuItem();
             TxtLog = new TextBox();
             PnTool = new Panel();
             TimerMoveRandom = new System.Windows.Forms.Timer(components);
+            BarWorkProgress = new ProgressBar();
+            TimerUpdateProgress = new System.Windows.Forms.Timer(components);
             TopMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -71,19 +73,19 @@
             MenuAdvanced.Size = new Size(52, 24);
             MenuAdvanced.Text = "高级";
             // 
+            // LastErrorDetailToolStripMenuItem
+            // 
+            LastErrorDetailToolStripMenuItem.Name = "LastErrorDetailToolStripMenuItem";
+            LastErrorDetailToolStripMenuItem.Size = new Size(228, 24);
+            LastErrorDetailToolStripMenuItem.Text = "查看最近的错误细节";
+            LastErrorDetailToolStripMenuItem.Click += LastErrorDetailToolStripMenuItem_Click;
+            // 
             // ButRestartAsAdmin
             // 
             ButRestartAsAdmin.Name = "ButRestartAsAdmin";
             ButRestartAsAdmin.Size = new Size(228, 24);
             ButRestartAsAdmin.Text = "管理员权限重启本软件";
             ButRestartAsAdmin.Click += ButRestartAsAdmin_Click;
-            // 
-            // LastErrorDetailToolStripMenuItem
-            // 
-            LastErrorDetailToolStripMenuItem.Name = "LastErrorDetailToolStripMenuItem";
-            LastErrorDetailToolStripMenuItem.Size = new Size(213, 24);
-            LastErrorDetailToolStripMenuItem.Text = "查看最近的错误细节";
-            LastErrorDetailToolStripMenuItem.Click += LastErrorDetailToolStripMenuItem_Click;
             // 
             // MenuAbout
             // 
@@ -111,12 +113,12 @@
             // 
             TxtLog.Dock = DockStyle.Bottom;
             TxtLog.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            TxtLog.Location = new Point(0, 161);
+            TxtLog.Location = new Point(0, 182);
             TxtLog.Multiline = true;
             TxtLog.Name = "TxtLog";
             TxtLog.ReadOnly = true;
             TxtLog.ScrollBars = ScrollBars.Both;
-            TxtLog.Size = new Size(580, 194);
+            TxtLog.Size = new Size(580, 173);
             TxtLog.TabIndex = 1;
             // 
             // PnTool
@@ -124,7 +126,7 @@
             PnTool.Dock = DockStyle.Fill;
             PnTool.Location = new Point(0, 27);
             PnTool.Name = "PnTool";
-            PnTool.Size = new Size(580, 134);
+            PnTool.Size = new Size(580, 155);
             PnTool.TabIndex = 2;
             // 
             // TimerMoveRandom
@@ -133,11 +135,26 @@
             TimerMoveRandom.Interval = 150;
             TimerMoveRandom.Tick += TimerMoveRandom_Tick;
             // 
+            // BarWorkProgress
+            // 
+            BarWorkProgress.Dock = DockStyle.Bottom;
+            BarWorkProgress.Location = new Point(0, 170);
+            BarWorkProgress.Maximum = 1000;
+            BarWorkProgress.Name = "BarWorkProgress";
+            BarWorkProgress.Size = new Size(580, 12);
+            BarWorkProgress.TabIndex = 0;
+            // 
+            // TimerUpdateProgress
+            // 
+            TimerUpdateProgress.Interval = 30;
+            TimerUpdateProgress.Tick += TimerUpdateProgress_Tick;
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
             ClientSize = new Size(580, 355);
+            Controls.Add(BarWorkProgress);
             Controls.Add(PnTool);
             Controls.Add(TxtLog);
             Controls.Add(TopMenu);
@@ -170,5 +187,7 @@
         private ToolStripMenuItem buildTimeToolStripMenuItem;
         private ToolStripMenuItem LastErrorDetailToolStripMenuItem;
         private System.Windows.Forms.Timer TimerMoveRandom;
+        private ProgressBar BarWorkProgress;
+        private System.Windows.Forms.Timer TimerUpdateProgress;
     }
 }

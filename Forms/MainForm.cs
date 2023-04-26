@@ -15,6 +15,7 @@ namespace BuyiTools
 
         private readonly Dictionary<string, Type> tools = new();
         private string? currentToolName;
+        private ToolBase? currentTool;
         private Exception? lastError = null;
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -103,6 +104,7 @@ namespace BuyiTools
             if (PnTool.Width < tool.Width) { this.Width = tool.Width + (this.Width - PnTool.Width) + 3; }
             if (PnTool.Height < tool.Width) { this.Height = tool.Height + (this.Height - PnTool.Height) + 3; }
             Log($"启动 {name}");
+            currentTool = tool;
             tool.LogSent += (object? sender, string msg) =>
             {
                 Log(msg);
@@ -111,6 +113,13 @@ namespace BuyiTools
             {
                 this.lastError = e;
             };
+            TimerUpdateProgress.Enabled = true;
+        }
+
+        private void TimerUpdateProgress_Tick(object sender, EventArgs e)
+        {
+            if (currentTool == null) return;
+            BarWorkProgress.Value = Convert.ToInt32(BarWorkProgress.Maximum * currentTool.WorkProgress);
         }
 
         private void ButRestartAsAdmin_Click(object sender, EventArgs e)

@@ -92,7 +92,8 @@ namespace BuyiTools.Forms.Tools
                     }
                     usedStr.Add(n2);
                 }
-                if (usedStr.Count < 1) { throw new Exception("没有任何要建立链接的文件或文件夹"); }
+                var totalCount = usedStr.Count;
+                if (totalCount < 1) { throw new Exception("没有任何要建立链接的文件或文件夹"); }
                 usedStr.Clear();
                 var targetLines = TxtTargetFolders.Lines;
                 var targets = new List<DirectoryInfo>();
@@ -112,30 +113,38 @@ namespace BuyiTools.Forms.Tools
                     targets.Add(dir);
                     usedStr.Add(preview);
                 }
+                totalCount *= targets.Count;
                 if (targets.Count < 1) { throw new Exception("没有目标文件夹，请一行写一个"); }
+                SetFullProgress(totalCount);
                 foreach (var dir in targets)
                 {
                     foreach (var f in srcFiles)
                     {
+                        AddProgress();
                         var targetPath = Path.Combine(dir.FullName, f.Name);
                         if (File.Exists(targetPath))
                         {
                             Log($"文件已经存在 跳过 {targetPath}");
-                            continue;
                         }
-                        File.CreateSymbolicLink(targetPath, f.FullName);
-                        Log($"成功建立 {targetPath}");
+                        else
+                        {
+                            File.CreateSymbolicLink(targetPath, f.FullName);
+                            Log($"成功建立 {targetPath}");
+                        }
                     }
                     foreach (var f in srcDirs)
                     {
+                        AddProgress();
                         var targetPath = Path.Combine(dir.FullName, f.Name);
                         if (Directory.Exists(targetPath))
                         {
                             Log($"文件已经存在 跳过 {targetPath}");
-                            continue;
                         }
-                        Directory.CreateSymbolicLink(targetPath, f.FullName);
-                        Log($"成功建立 {targetPath}");
+                        else
+                        {
+                            Directory.CreateSymbolicLink(targetPath, f.FullName);
+                            Log($"成功建立 {targetPath}");
+                        }
                     }
                 }
             });

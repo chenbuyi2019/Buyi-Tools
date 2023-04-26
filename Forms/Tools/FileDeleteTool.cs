@@ -66,8 +66,10 @@ namespace BuyiTools.Forms.Tools
                 var files = dirInfo.GetFiles("*", SearchOption.AllDirectories);
                 long totalSize = 0;
                 var toRemove = new List<FileInfo>();
+                SetFullProgress(files.Length);
                 foreach (var file in files)
                 {
+                    AddProgress();
                     var relPath = Utils.CleanPath(Path.GetRelativePath(dirInfo.FullName, file.FullName));
                     if (targets.Contains(relPath.ToLower()))
                     {
@@ -83,10 +85,12 @@ namespace BuyiTools.Forms.Tools
                 }
                 else
                 {
+                    SetFullProgress(toRemove.Count);
                     Log($"下面开始实际删除");
                     foreach (var file in toRemove)
                     {
                         file.Delete();
+                        AddProgress();
                     }
                     Log("删除完毕");
                 }

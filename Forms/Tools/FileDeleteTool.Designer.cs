@@ -84,7 +84,7 @@
             ListFileSets.FormattingEnabled = true;
             ListFileSets.Location = new Point(83, 207);
             ListFileSets.Name = "ListFileSets";
-            ListFileSets.Size = new Size(174, 194);
+            ListFileSets.Size = new Size(174, 184);
             ListFileSets.TabIndex = 8;
             // 
             // label3
@@ -118,6 +118,8 @@
             // CheckScanOnly
             // 
             CheckScanOnly.AutoSize = true;
+            CheckScanOnly.Checked = true;
+            CheckScanOnly.CheckState = CheckState.Checked;
             CheckScanOnly.Location = new Point(656, 254);
             CheckScanOnly.Name = "CheckScanOnly";
             CheckScanOnly.Size = new Size(106, 23);
