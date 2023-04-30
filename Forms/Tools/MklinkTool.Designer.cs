@@ -61,7 +61,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(26, 208);
+            label3.Location = new Point(26, 210);
             label3.Name = "label3";
             label3.Size = new Size(61, 19);
             label3.TabIndex = 2;
@@ -95,7 +95,7 @@
             ListFiles.FormattingEnabled = true;
             ListFiles.Location = new Point(93, 210);
             ListFiles.Name = "ListFiles";
-            ListFiles.Size = new Size(353, 202);
+            ListFiles.Size = new Size(353, 184);
             ListFiles.TabIndex = 5;
             ListFiles.SelectedIndexChanged += ListFiles_SelectedIndexChanged;
             // 

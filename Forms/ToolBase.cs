@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.Logging;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -134,8 +135,8 @@ namespace BuyiTools
             Exception? error = null;
             try
             {
+                Log("\n================ 开始");
                 action();
-                Log($"工作完成");
             }
             catch (Exception ex)
             {
@@ -143,6 +144,7 @@ namespace BuyiTools
                 Log($"出错 {ex.Message}");
                 _lastError = ex;
             }
+            Log("工作结束");
             Utils.CooldownControl(this);
             return error;
         }

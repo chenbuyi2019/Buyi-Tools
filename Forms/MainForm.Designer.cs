@@ -138,6 +138,7 @@
             // BarWorkProgress
             // 
             BarWorkProgress.Dock = DockStyle.Bottom;
+            BarWorkProgress.ForeColor = SystemColors.ControlDark;
             BarWorkProgress.Location = new Point(0, 170);
             BarWorkProgress.Maximum = 1000;
             BarWorkProgress.Name = "BarWorkProgress";

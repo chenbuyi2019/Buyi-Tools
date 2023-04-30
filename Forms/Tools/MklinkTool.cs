@@ -1,4 +1,6 @@
 ﻿
+using System.Text;
+
 namespace BuyiTools.Forms.Tools
 {
     public partial class MklinkTool : ToolBase
@@ -31,9 +33,36 @@ namespace BuyiTools.Forms.Tools
                 }
                 var dir = new DirectoryInfo(t);
                 var files = dir.EnumerateFileSystemInfos("*", SearchOption.TopDirectoryOnly);
+                var sb = new StringBuilder();
                 foreach (var item in files)
                 {
-                    ListFiles.Items.Add(item.Name);
+                    sb.Clear();
+                    if (item.Attributes.HasFlag(FileAttributes.Directory))
+                    {
+                        sb.Append(" 目录");
+                    }
+                    else
+                    {
+                        sb.Append(" 文件");
+                    }
+                    if (item.LinkTarget != null)
+                    {
+                        sb.Append(" 链接");
+                    }
+                    if (item.Attributes.HasFlag(FileAttributes.Hidden))
+                    {
+                        sb.Append(" 隐藏");
+                    }
+                    if (item.Attributes.HasFlag(FileAttributes.ReadOnly))
+                    {
+                        sb.Append(" 只读");
+                    }
+                    if (item.Attributes.HasFlag(FileAttributes.System))
+                    {
+                        sb.Append(" 系统");
+                    }
+                    var m = new SimpleDataObject(item.Name, $"{item.Name}  [{sb.ToString().Trim()}]");
+                    ListFiles.Items.Add(m);
                 }
             }
             catch (Exception ex)
@@ -67,8 +96,9 @@ namespace BuyiTools.Forms.Tools
                 var usedStr = new List<string>();
                 foreach (var item in ListFiles.CheckedItems)
                 {
-                    if (item == null) { throw new Exception("null 1，请刷新列表后再试"); }
-                    var n = item.ToString();
+                    if (item == null || item is not SimpleDataObject) { throw new Exception("null 1，请刷新列表后再试"); }
+                    var dataobj = (SimpleDataObject)item;
+                    var n = dataobj.Data;
                     if (string.IsNullOrWhiteSpace(n)) { throw new Exception("null 2，请刷新列表后再试"); }
                     var n2 = n.ToLower();
                     if (usedStr.Contains(n2)) { throw new Exception($"重复的文件名 {n}"); }
@@ -154,5 +184,22 @@ namespace BuyiTools.Forms.Tools
             }
         }
 
+    }
+
+    public class SimpleDataObject
+    {
+        public SimpleDataObject(string data, string display)
+        {
+            this.Data = data;
+            this._display = display;
+        }
+
+        public string Data { get; }
+        private readonly string _display;
+
+        public override string ToString()
+        {
+            return this._display;
+        }
     }
 }
