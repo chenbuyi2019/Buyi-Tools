@@ -36,7 +36,6 @@
             ButRestartAsAdmin = new ToolStripMenuItem();
             MenuAbout = new ToolStripDropDownButton();
             githubUrlToolStripMenuItem = new ToolStripMenuItem();
-            buildTimeToolStripMenuItem = new ToolStripMenuItem();
             TxtLog = new TextBox();
             PnTool = new Panel();
             TimerMoveRandom = new System.Windows.Forms.Timer(components);
@@ -90,7 +89,7 @@
             // MenuAbout
             // 
             MenuAbout.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            MenuAbout.DropDownItems.AddRange(new ToolStripItem[] { githubUrlToolStripMenuItem, buildTimeToolStripMenuItem });
+            MenuAbout.DropDownItems.AddRange(new ToolStripItem[] { githubUrlToolStripMenuItem });
             MenuAbout.ImageTransparentColor = Color.Magenta;
             MenuAbout.Name = "MenuAbout";
             MenuAbout.Size = new Size(52, 24);
@@ -102,12 +101,6 @@
             githubUrlToolStripMenuItem.Size = new Size(184, 24);
             githubUrlToolStripMenuItem.Text = "源码 on Github";
             githubUrlToolStripMenuItem.Click += GithubUrlToolStripMenuItem_Click;
-            // 
-            // buildTimeToolStripMenuItem
-            // 
-            buildTimeToolStripMenuItem.Name = "buildTimeToolStripMenuItem";
-            buildTimeToolStripMenuItem.Size = new Size(184, 24);
-            buildTimeToolStripMenuItem.Text = "编译时间";
             // 
             // TxtLog
             // 
@@ -185,7 +178,6 @@
         private ToolStripMenuItem ButRestartAsAdmin;
         private ToolStripDropDownButton MenuAbout;
         private ToolStripMenuItem githubUrlToolStripMenuItem;
-        private ToolStripMenuItem buildTimeToolStripMenuItem;
         private ToolStripMenuItem LastErrorDetailToolStripMenuItem;
         private System.Windows.Forms.Timer TimerMoveRandom;
         private ProgressBar BarWorkProgress;

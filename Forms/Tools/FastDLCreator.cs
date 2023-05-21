@@ -89,7 +89,7 @@ namespace BuyiTools.Forms.Tools
                 {
                     AddProgress();
                     var rel = Utils.CleanPath(Path.GetRelativePath(rootPath, rawfile.FullName));
-                    var outFilePath = Path.Combine(outDirPath, rel) + ".bz2";
+                    var outFilePath = Path.Combine(outDirPath, rel) ;
                     var dir = Path.GetDirectoryName(outFilePath);
                     if (string.IsNullOrEmpty(dir)) { throw new Exception("无法识别输出文件夹的位置"); }
                     Directory.CreateDirectory(dir);
@@ -98,12 +98,13 @@ namespace BuyiTools.Forms.Tools
                     long len2 = 0;
                     if (len > sizeLimit || len < 1)
                     {
-                        rawfile.CopyTo(outFilePath);
-                        Log($"文件过大或空白,直接复制 {rel} {len}Bytes");
+                        Log($"文件过大或空白,直接复制 {rel} {Utils.FormatBytesLength(len)}");
+                        rawfile.CopyTo(outFilePath,true);
                         len2 = len;
                     }
                     else
                     {
+                        outFilePath += ".bz2";
                         using var inStream = rawfile.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
                         using var outStream = File.Create(outFilePath);
                         using var bz2s = new BZip2Stream(outStream, CompressionMode.Compress, false);

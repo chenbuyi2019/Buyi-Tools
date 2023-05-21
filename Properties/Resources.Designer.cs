@@ -61,12 +61,11 @@ namespace BuyiTools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2023-04-23 21:35:27.28 
-        ///.
+        ///   Looks up a localized string similar to 23.5.21.1.
         /// </summary>
-        internal static string BuildDate {
+        internal static string ReleaseVersion {
             get {
-                return ResourceManager.GetString("BuildDate", resourceCulture);
+                return ResourceManager.GetString("ReleaseVersion", resourceCulture);
             }
         }
     }

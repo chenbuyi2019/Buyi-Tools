@@ -2,7 +2,8 @@
 using System.Diagnostics;
 using System.Resources;
 using System.Xml.Linq;
-using Windows.System;
+using System.Windows;
+using BuyiTools.Properties;
 
 namespace BuyiTools
 {
@@ -16,10 +17,13 @@ namespace BuyiTools
         private readonly Dictionary<string, Type> tools = new();
         private string? currentToolName;
         private ToolBase? currentTool;
+        private Version? currentVersion;
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            buildTimeToolStripMenuItem.Text = $"编译时间 {Properties.Resources.BuildDate.Trim()}";
+            var versionStr = Resources.ReleaseVersion;
+            currentVersion = Version.Parse(versionStr);
+            this.Text += $"  {currentVersion}";
             RegisterTool<MklinkTool>("量产 Mklink");
             RegisterTool<FileDeleteTool>("删除相对文件");
             RegisterTool<FastDLCreator>("FastDL 生成");
@@ -28,6 +32,9 @@ namespace BuyiTools
             {
                 var toolName = args[1];
                 OpenToolByName(toolName);
+            } else
+            {
+                CheckUpdate();
             }
         }
 
@@ -131,7 +138,6 @@ namespace BuyiTools
             }
         }
 
-
         private void ButRestartAsAdmin_Click(object sender, EventArgs e)
         {
             StartSelfProcess(currentToolName, true);
@@ -170,6 +176,36 @@ namespace BuyiTools
         private void GithubUrlToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using var proc = Process.Start("explorer.exe", "https://github.com/chenbuyi2019/Buyi-Tools");
+        }
+
+        private async void CheckUpdate()
+        {
+            using var client = new HttpClient()
+            {
+                BaseAddress = new Uri("https://raw.githubusercontent.com/chenbuyi2019/Buyi-Tools/master/"),
+                Timeout = new TimeSpan(0, 0, 6)
+            };
+            try
+            {
+                var text = await client.GetStringAsync("ReleaseVersion.txt");
+                if (string.IsNullOrWhiteSpace(text))
+                {
+                    throw new Exception("获取到的版本号是空白");
+                }
+                if (!Version.TryParse(text, out Version? newVersion))
+                {
+                    throw new Exception($"获取到的版本号无法被识别: {text}");
+                }
+                if (currentVersion < newVersion)
+                {
+                    Log($"发现新版本: {newVersion}");
+                    Log($"https://github.com/chenbuyi2019/Buyi-Tools/releases");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log($"检测更新出错: {ex.Message}");
+            }
         }
         #endregion
     }
