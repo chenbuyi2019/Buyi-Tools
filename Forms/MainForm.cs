@@ -200,6 +200,9 @@ namespace BuyiTools
                 {
                     Log($"发现新版本: {newVersion}");
                     Log($"https://github.com/chenbuyi2019/Buyi-Tools/releases");
+                } else
+                {
+                    Log($"没有发现新版本 {newVersion}");
                 }
             }
             catch (Exception ex)
