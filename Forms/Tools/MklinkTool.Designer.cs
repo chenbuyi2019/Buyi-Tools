@@ -38,6 +38,7 @@
             labSelectedCount = new Label();
             ButRefreshFileList = new Button();
             label4 = new Label();
+            checkForceRemoveTargets = new CheckBox();
             SuspendLayout();
             // 
             // label1
@@ -135,11 +136,22 @@
             label4.Name = "label4";
             label4.Size = new Size(356, 76);
             label4.TabIndex = 9;
-            label4.Text = "说明：\r\n工具会在每个目标文件夹下创建一个或多个 mklink 符号链接\r\n来源是母体文件夹下的指定对象（在左侧勾选）\r\n如果有同名文件已经存在于目标文件夹，会直接跳过";
+            label4.Text = "说明：\r\n工具会在每个目标文件夹下创建一个或多个 mklink 符号链接\r\n来源是母体文件夹下的指定对象（在左侧勾选）\r\n如果有同名文件已经存在于目标文件夹，默认会直接跳过";
+            // 
+            // checkForceRemoveTargets
+            // 
+            checkForceRemoveTargets.AutoSize = true;
+            checkForceRemoveTargets.Location = new Point(573, 210);
+            checkForceRemoveTargets.Name = "checkForceRemoveTargets";
+            checkForceRemoveTargets.Size = new Size(171, 23);
+            checkForceRemoveTargets.TabIndex = 10;
+            checkForceRemoveTargets.Text = "强制覆盖已经存在的目标";
+            checkForceRemoveTargets.UseVisualStyleBackColor = true;
             // 
             // MklinkTool
             // 
             AutoScaleMode = AutoScaleMode.None;
+            Controls.Add(checkForceRemoveTargets);
             Controls.Add(ButCreate);
             Controls.Add(label4);
             Controls.Add(ButRefreshFileList);
@@ -169,5 +181,6 @@
         private Label labSelectedCount;
         private Button ButRefreshFileList;
         private Label label4;
+        private CheckBox checkForceRemoveTargets;
     }
 }

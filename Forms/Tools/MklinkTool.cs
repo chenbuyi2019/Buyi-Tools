@@ -146,6 +146,7 @@ namespace BuyiTools.Forms.Tools
                 totalCount *= targets.Count;
                 if (targets.Count < 1) { throw new Exception("没有目标文件夹，请一行写一个"); }
                 SetFullProgress(totalCount);
+                bool forceOverwrite = checkForceRemoveTargets.Checked;
                 foreach (var dir in targets)
                 {
                     foreach (var f in srcFiles)
@@ -154,13 +155,19 @@ namespace BuyiTools.Forms.Tools
                         var targetPath = Path.Combine(dir.FullName, f.Name);
                         if (File.Exists(targetPath))
                         {
-                            Log($"文件已经存在 跳过 {targetPath}");
+                            if (forceOverwrite)
+                            {
+                                File.Delete(targetPath);
+                                Log($"删除已存在的文件 {targetPath}");
+                            }
+                            else
+                            {
+                                Log($"文件已经存在 跳过 {targetPath}");
+                                continue;
+                            }
                         }
-                        else
-                        {
-                            File.CreateSymbolicLink(targetPath, f.FullName);
-                            Log($"成功建立 {targetPath}");
-                        }
+                        File.CreateSymbolicLink(targetPath, f.FullName);
+                        Log($"成功建立 {targetPath}");
                     }
                     foreach (var f in srcDirs)
                     {
@@ -168,13 +175,19 @@ namespace BuyiTools.Forms.Tools
                         var targetPath = Path.Combine(dir.FullName, f.Name);
                         if (Directory.Exists(targetPath))
                         {
-                            Log($"文件已经存在 跳过 {targetPath}");
+                            if (forceOverwrite)
+                            {
+                                Directory.Delete(targetPath, true);
+                                Log($"删除已存在的文件夹 {targetPath}");
+                            }
+                            else
+                            {
+                                Log($"文件夹已经存在 跳过 {targetPath}");
+                                continue;
+                            }
                         }
-                        else
-                        {
-                            Directory.CreateSymbolicLink(targetPath, f.FullName);
-                            Log($"成功建立 {targetPath}");
-                        }
+                        Directory.CreateSymbolicLink(targetPath, f.FullName);
+                        Log($"成功建立 {targetPath}");
                     }
                 }
             });
