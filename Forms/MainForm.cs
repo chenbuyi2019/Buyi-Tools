@@ -27,6 +27,7 @@ namespace BuyiTools
             RegisterTool<MklinkTool>("量产 Mklink");
             RegisterTool<FileDeleteTool>("删除相对文件");
             RegisterTool<FastDLCreator>("FastDL 生成");
+            RegisterTool<OpenHiddenProcess>("打开隐藏的进程窗口");
             var args = Environment.GetCommandLineArgs();
             if (args != null && args.Length > 1)
             {
