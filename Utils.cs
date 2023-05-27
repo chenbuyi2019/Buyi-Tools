@@ -70,7 +70,7 @@ namespace BuyiTools
         /// <summary>
         /// 把控件 Enabled 设为 false ，然后在几秒后恢复为 true
         /// </summary>
-        public static void CooldownControl(Control ct, int timeoutMs = 1500)
+        public static void CooldownControl(Control ct, int timeoutMs = 600)
         {
             if (timeoutMs < 1) { return; }
             var form = ct.FindForm();

@@ -32,14 +32,14 @@ namespace BuyiTools.Forms.Tools
             RegisterContorlSaveData(TxtTargetName);
         }
 
-        private async void ButShowThem_Click(object sender, EventArgs e)
+        private void ButShowThem_Click(object sender, EventArgs e)
         {
-            await DoWorkAsync(() => { ChangeTargetProcessWindowVisible(true); });
+            DoWork(() => { ChangeTargetProcessWindowVisible(true); });
         }
 
-        private async void ButHideThem_Click(object sender, EventArgs e)
+        private void ButHideThem_Click(object sender, EventArgs e)
         {
-            await DoWorkAsync(() => { ChangeTargetProcessWindowVisible(false); });
+            DoWork(() => { ChangeTargetProcessWindowVisible(false); });
         }
 
         private void ChangeTargetProcessWindowVisible(bool visible)
