@@ -10,10 +10,12 @@ namespace BuyiTools
     internal abstract class Utils
     {
 
+        public static readonly UTF8Encoding UTF8noBom = new(false);
+
         /// <summary>
         /// 最简单的忽略大小写比较
         /// </summary>
-        public static StringComparison IgnoreCase = StringComparison.OrdinalIgnoreCase;
+        public static readonly StringComparison IgnoreCase = StringComparison.OrdinalIgnoreCase;
 
         /// <summary>
         /// 把字符串转化为采用 linux 风格的/斜杠，并去掉头尾的双引号、空格的路径
@@ -123,6 +125,22 @@ namespace BuyiTools
                 return -1;
             }
         }
-    
+
+        /// <summary>
+        /// 读取流里的内容，直到遇到一个 NULL 字符
+        /// </summary>
+        public static string ReadNullTerminatedString(Stream stream)
+        {
+            var ls = new List<byte>();
+            while (true)
+            {
+                var v = stream.ReadByte();
+                if (v < 1) { break; }
+                ls.Add(Convert.ToByte(v));
+            }
+            if (ls.Count < 1) { return string.Empty; }
+            return UTF8noBom.GetString(ls.ToArray());
+        }
+
     }
 }
