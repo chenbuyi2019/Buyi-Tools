@@ -29,6 +29,7 @@ namespace BuyiTools
             RegisterTool<FastDLCreator>("FastDL 生成");
             RegisterTool<OpenHiddenProcess>("打开隐藏的进程窗口");
             RegisterTool<SmDumpParser>("SourceMod 句柄 Dump 日志解析");
+            RegisterTool<MdlTextureFinder>("MDL 模型贴图打包");
             var args = Environment.GetCommandLineArgs();
             if (args != null && args.Length > 1)
             {

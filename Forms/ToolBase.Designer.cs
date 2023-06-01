@@ -42,40 +42,40 @@
             MenuCheckBoxList.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             MenuCheckBoxList.Items.AddRange(new ToolStripItem[] { CheckAllToolStripMenuItem, UncheckAllToolStripMenuItem, CheckInvertToolStripMenuItem, ViewCheckedToolStripMenuItem });
             MenuCheckBoxList.Name = "MenuCheckBoxList";
-            MenuCheckBoxList.Size = new Size(181, 114);
+            MenuCheckBoxList.Size = new Size(173, 92);
             // 
             // CheckAllToolStripMenuItem
             // 
             CheckAllToolStripMenuItem.Name = "CheckAllToolStripMenuItem";
-            CheckAllToolStripMenuItem.Size = new Size(180, 22);
+            CheckAllToolStripMenuItem.Size = new Size(172, 22);
             CheckAllToolStripMenuItem.Text = "全打勾";
             CheckAllToolStripMenuItem.Click += CheckAllToolStripMenuItem_Click;
             // 
             // UncheckAllToolStripMenuItem
             // 
             UncheckAllToolStripMenuItem.Name = "UncheckAllToolStripMenuItem";
-            UncheckAllToolStripMenuItem.Size = new Size(180, 22);
+            UncheckAllToolStripMenuItem.Size = new Size(172, 22);
             UncheckAllToolStripMenuItem.Text = "全不打勾";
             UncheckAllToolStripMenuItem.Click += UncheckAllToolStripMenuItem_Click;
             // 
             // CheckInvertToolStripMenuItem
             // 
             CheckInvertToolStripMenuItem.Name = "CheckInvertToolStripMenuItem";
-            CheckInvertToolStripMenuItem.Size = new Size(180, 22);
+            CheckInvertToolStripMenuItem.Size = new Size(172, 22);
             CheckInvertToolStripMenuItem.Text = "反打勾";
             CheckInvertToolStripMenuItem.Click += CheckInvertToolStripMenuItem_Click;
             // 
             // ViewCheckedToolStripMenuItem
             // 
             ViewCheckedToolStripMenuItem.Name = "ViewCheckedToolStripMenuItem";
-            ViewCheckedToolStripMenuItem.Size = new Size(180, 22);
+            ViewCheckedToolStripMenuItem.Size = new Size(172, 22);
             ViewCheckedToolStripMenuItem.Text = "查看已勾选的项目";
             ViewCheckedToolStripMenuItem.Click += ViewCheckedToolStripMenuItem_Click;
             // 
             // ToolBase
             // 
             AutoScaleMode = AutoScaleMode.None;
-            BackColor = Color.White;
+            BackColor = Color.FromArgb(251, 255, 236);
             DoubleBuffered = true;
             Font = new Font("Microsoft YaHei UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             Name = "ToolBase";
