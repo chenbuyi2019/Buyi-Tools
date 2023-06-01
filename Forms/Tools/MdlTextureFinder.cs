@@ -61,10 +61,11 @@ namespace BuyiTools.Forms.Tools
                {
                    Log($"读取 {filepath}");
                    var result = SourceMDLFileInfo.ParseFile(filepath);
+                   var vmtFiles = result.SearchVmtFiles(materialsDir);
+                   Log($"扫描到 vmt 文件 {vmtFiles.Count} 个");
                }
            });
         }
-
     }
 
     internal class SourceMDLFileInfo
@@ -143,16 +144,71 @@ namespace BuyiTools.Forms.Tools
             }
             var result = new SourceMDLFileInfo()
             {
-                FilePath = filename
+                FilePath = filename,
+                VmtFolderNames = dirNames,
+                VmtFileNames = fileNames
             };
-            result.MaterialFolderNames.AddRange(dirNames);
-            result.MaterialFileNames.AddRange(fileNames);
             return result;
         }
 
         public string FilePath { get; set; } = string.Empty;
-        public List<string> MaterialFileNames { get; } = new();
-        public List<string> MaterialFolderNames { get; } = new();
+        public List<string> VmtFileNames { get; private set; } = new();
+        public List<string> VmtFolderNames { get; private set; } = new();
+        public List<string> FoundVmtFiles { get; private set; } = new();
+        public List<string> FoundVtfFiles { get; private set; } = new();
+        public List<string> LostVmtFiles { get; private set; } = new();
+        public List<string> LostVtfFiles { get; private set; } = new();
 
+        private readonly string[] VtfFilenameKeys = {
+            "basetexture" ,
+            "basetexture2",
+            "bumpmap",
+            "detail",
+            "blendmodulatetexture",
+            "selfillummask",
+            "selfillumtexture",
+            "lightwarptexture",
+            "ambientoccltexture",
+            "phongexponenttexture",
+            "phongwarptexture",
+            "envmapmask",
+            "tintmasktexture"
+        };
+
+        public void SearchFiles(string materialsDir)
+        {
+            if (!Directory.Exists(materialsDir))
+            {
+                throw new Exception($"文件夹不存在 {materialsDir}");
+            }
+            var foundVmtFiles = new List<string>();
+            var usedVmtNames = new List<string>();
+            var unusedVmtNames = new List<string>();
+            var vtfNames = new List<string>();
+            foreach (var fd in VmtFolderNames)
+            {
+                var dir = Path.Combine(materialsDir, fd);
+                if (!Directory.Exists(dir)) { continue; }
+                foreach (var name in VmtFileNames)
+                {
+                    var lowerName = name.ToLower();
+                    if (!usedVmtNames.Contains(lowerName)) { usedVmtNames.Add(lowerName); }
+                    var fn = Path.ChangeExtension(name, ".vmt");
+                    fn = Path.Combine(dir, fn);
+                    if (!File.Exists(fn)) { continue; }
+                    var txt = File.ReadAllText(fn);
+                    if (string.IsNullOrWhiteSpace(txt)) { continue; }
+
+                    foundVmtFiles.Add(fn);
+                }
+            }
+            foreach (var name in VmtFileNames)
+            {
+                var lowerName = name.ToLower();
+                if (!usedVmtNames.Contains(lowerName)) { unusedVmtNames.Add(name); }
+            }
+            this.FoundVmtFiles = foundVmtFiles;
+            this.LostVmtFiles = unusedVmtNames;
+        }
     }
 }
