@@ -109,17 +109,15 @@ namespace BuyiTools.Forms.Tools
                 throw new Exception($"读取到贴图目录offset不合理 {textureDirOffset}");
             }
             filestream.Seek(textureOffset, SeekOrigin.Begin);
-            var nameOffsets = new Dictionary<long, int>();
+            var nameOffsets = new List<long>();
             for (int i = 0; i < textureCount; i++)
             {
-                nameOffsets.Add(filestream.Position, reader.ReadInt32());
+                nameOffsets.Add(filestream.Position + reader.ReadInt32());
                 reader.ReadBytes(TextureInfoSize - 4);
             }
             var fileNames = new List<string>();
-            foreach (var kv in nameOffsets)
+            foreach (var offset in nameOffsets)
             {
-                var offset = kv.Key + kv.Value;
-                Debug.WriteLine($"offset: {offset}");
                 filestream.Seek(offset, SeekOrigin.Begin);
                 var str = Utils.ReadNullTerminatedString(filestream);
                 if (!string.IsNullOrWhiteSpace(str))
@@ -127,10 +125,27 @@ namespace BuyiTools.Forms.Tools
                     fileNames.Add(str);
                 }
             }
+            nameOffsets.Clear();
+            filestream.Seek(textureDirOffset, SeekOrigin.Begin);
+            for (int i = 0; i < textureDirCount; i++)
+            {
+                nameOffsets.Add(reader.ReadInt32());
+            }
+            var dirNames = new List<string>();
+            foreach (var offset in nameOffsets)
+            {
+                filestream.Seek(offset, SeekOrigin.Begin);
+                var str = Utils.ReadNullTerminatedString(filestream);
+                if (!string.IsNullOrWhiteSpace(str))
+                {
+                    dirNames.Add(str);
+                }
+            }
             var result = new SourceMDLFileInfo()
             {
                 FilePath = filename
             };
+            result.MaterialFolderNames.AddRange(dirNames);
             result.MaterialFileNames.AddRange(fileNames);
             return result;
         }
