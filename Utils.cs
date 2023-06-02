@@ -129,7 +129,7 @@ namespace BuyiTools
         /// <summary>
         /// 读取流里的内容，直到遇到一个 NULL 字符
         /// </summary>
-        public static string ReadNullTerminatedString(Stream stream)
+        public static string ReadNullTerminatedStr(Stream stream)
         {
             var ls = new List<byte>();
             while (true)
@@ -142,5 +142,44 @@ namespace BuyiTools
             return UTF8noBom.GetString(ls.ToArray());
         }
 
+        /// <summary>
+        /// 在数组里寻找 target 字符串，返回一致的字符串（忽略大小写）
+        /// </summary>
+        public static int FindStrInListIgnoreCase(IList<string> list, string target)
+        {
+            int ct = list.Count;
+            for (int i = 0; i < ct; i++)
+            {
+                var str = list[i];
+                if (target.Equals(str, IgnoreCase)) { return i; }
+            }
+            return -1;
+        }
+
+        /// <summary>
+        /// 如果 str 是以 prefix 作为开头，就把 prefix 去掉。
+        /// 默认不区分大小写。
+        /// </summary>
+        public static string StrTrimPrefix(string str,
+            string prefix,
+            StringComparison compare = StringComparison.OrdinalIgnoreCase)
+        {
+            if (string.IsNullOrEmpty(prefix)) { return str; }
+            if (str.StartsWith(prefix, compare)) { return str.Substring(prefix.Length); }
+            return str;
+        }
+
+        /// <summary>
+        /// 如果 str 是以 suffix 作为结尾，就把 suffix 去掉。
+        /// 默认不区分大小写。
+        /// </summary>
+        public static string StrTrimSuffix(string str,
+            string suffix,
+            StringComparison compare = StringComparison.OrdinalIgnoreCase)
+        {
+            if (string.IsNullOrEmpty(suffix)) { return str; }
+            if (str.EndsWith(suffix, compare)) { return str.Substring(0, str.Length - suffix.Length); }
+            return str;
+        }
     }
 }
