@@ -33,6 +33,7 @@
             label2 = new Label();
             TxtMaterialsFolder = new TextBox();
             ButPackMaterial = new Button();
+            label3 = new Label();
             SuspendLayout();
             // 
             // label1
@@ -52,13 +53,13 @@
             TxtMdlFiles.Multiline = true;
             TxtMdlFiles.Name = "TxtMdlFiles";
             TxtMdlFiles.ScrollBars = ScrollBars.Both;
-            TxtMdlFiles.Size = new Size(798, 103);
+            TxtMdlFiles.Size = new Size(823, 129);
             TxtMdlFiles.TabIndex = 1;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(13, 138);
+            label2.Location = new Point(13, 164);
             label2.Name = "label2";
             label2.Size = new Size(120, 19);
             label2.TabIndex = 2;
@@ -67,15 +68,15 @@
             // TxtMaterialsFolder
             // 
             TxtMaterialsFolder.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            TxtMaterialsFolder.Location = new Point(15, 165);
+            TxtMaterialsFolder.Location = new Point(13, 186);
             TxtMaterialsFolder.MaxLength = 999;
             TxtMaterialsFolder.Name = "TxtMaterialsFolder";
-            TxtMaterialsFolder.Size = new Size(796, 22);
+            TxtMaterialsFolder.Size = new Size(823, 22);
             TxtMaterialsFolder.TabIndex = 3;
             // 
             // ButPackMaterial
             // 
-            ButPackMaterial.Location = new Point(16, 202);
+            ButPackMaterial.Location = new Point(13, 214);
             ButPackMaterial.Name = "ButPackMaterial";
             ButPackMaterial.Size = new Size(140, 35);
             ButPackMaterial.TabIndex = 4;
@@ -83,16 +84,26 @@
             ButPackMaterial.UseVisualStyleBackColor = true;
             ButPackMaterial.Click += ButPackMaterial_Click;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(199, 214);
+            label3.Name = "label3";
+            label3.Size = new Size(318, 38);
+            label3.TabIndex = 5;
+            label3.Text = "说明：本工具把指定的mdl依赖的贴图单独提取出来，\r\n然后复制到桌面的一个临时文件夹里。";
+            // 
             // MdlTextureFinder
             // 
             AutoScaleMode = AutoScaleMode.None;
+            Controls.Add(label3);
             Controls.Add(ButPackMaterial);
             Controls.Add(TxtMaterialsFolder);
             Controls.Add(label2);
             Controls.Add(TxtMdlFiles);
             Controls.Add(label1);
             Name = "MdlTextureFinder";
-            Size = new Size(824, 293);
+            Size = new Size(851, 275);
             Load += MdlTextureFinder_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -105,5 +116,6 @@
         private Label label2;
         private TextBox TxtMaterialsFolder;
         private Button ButPackMaterial;
+        private Label label3;
     }
 }
