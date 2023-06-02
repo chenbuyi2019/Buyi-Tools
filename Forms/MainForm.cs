@@ -21,6 +21,7 @@ namespace BuyiTools
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            this.Icon = Resources.icon;
             var versionStr = Resources.ReleaseVersion;
             currentVersion = Version.Parse(versionStr);
             this.Text += $"  {currentVersion}";
@@ -35,7 +36,8 @@ namespace BuyiTools
             {
                 var toolName = args[1];
                 OpenToolByName(toolName);
-            } else
+            }
+            else
             {
                 CheckUpdate();
             }
@@ -203,7 +205,8 @@ namespace BuyiTools
                 {
                     Log($"发现新版本: {newVersion}");
                     Log($"https://github.com/chenbuyi2019/Buyi-Tools/releases");
-                } else
+                }
+                else
                 {
                     Log($"没有发现新版本 {newVersion}");
                 }

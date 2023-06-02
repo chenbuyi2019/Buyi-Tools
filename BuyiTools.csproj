@@ -9,6 +9,7 @@
     <UseWPF>False</UseWPF>
     <PlatformTarget>x64</PlatformTarget>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <ApplicationIcon>Properties\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -20,6 +21,10 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <DebugType>portable</DebugType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Properties\icon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="SharpCompress" Version="0.33.0" />
