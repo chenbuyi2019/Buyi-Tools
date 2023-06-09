@@ -31,6 +31,7 @@ namespace BuyiTools
             RegisterTool<OpenHiddenProcess>("打开或隐藏进程窗口");
             RegisterTool<SmDumpParser>("SourceMod 句柄 Dump 日志解析");
             RegisterTool<MdlTextureFinder>("MDL 模型贴图打包");
+            RegisterTool<FolderCombiner>("文件夹合并");
             var args = Environment.GetCommandLineArgs();
             if (args != null && args.Length > 1)
             {
