@@ -7,6 +7,7 @@
 - 量产 Mklink
 - 删除相对文件
 - FastDL 生成
+- FastDL 下载
 - 打开或隐藏进程窗口
 - SourceMod 句柄 Dump 日志解析
 - MDL 模型贴图打包

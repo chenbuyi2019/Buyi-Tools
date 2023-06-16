@@ -75,7 +75,7 @@
             // ToolBase
             // 
             AutoScaleMode = AutoScaleMode.None;
-            BackColor = Color.FromArgb(251, 255, 236);
+            BackColor = Color.FromArgb(248, 248, 248);
             DoubleBuffered = true;
             Font = new Font("Microsoft YaHei UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             Name = "ToolBase";
