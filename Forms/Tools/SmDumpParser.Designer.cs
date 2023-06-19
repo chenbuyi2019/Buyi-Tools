@@ -159,8 +159,7 @@
             // 
             // SmDumpParser
             // 
-            AutoScaleDimensions = new SizeF(8F, 19F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             Controls.Add(tabs);
             Controls.Add(label1);
             Controls.Add(ButReadFile);

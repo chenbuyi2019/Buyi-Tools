@@ -93,8 +93,7 @@
             // 
             // FolderCombiner
             // 
-            AutoScaleDimensions = new SizeF(8F, 19F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             Controls.Add(ButWork);
             Controls.Add(label3);
             Controls.Add(TxtOutput);
