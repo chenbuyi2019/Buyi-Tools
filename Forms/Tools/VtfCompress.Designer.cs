@@ -33,9 +33,10 @@
             label2 = new Label();
             TxtFileSizeLimit = new NumericUpDown();
             label3 = new Label();
-            checkResizeImage = new CheckBox();
             ButStart = new Button();
             ButDownloadVtfcmd = new Button();
+            label4 = new Label();
+            ListImageWidthLimit = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)TxtFileSizeLimit).BeginInit();
             SuspendLayout();
             // 
@@ -84,16 +85,6 @@
             label3.TabIndex = 4;
             label3.Text = "本工具会把文件夹路径内的超过指定文件大小的 vtf 进行压缩。（单个vtf文件也行）\r\n压缩的成果会被放在桌面上的新建文件夹。 \r\n压缩一律使用 DXT1+DXT5 Alpha 。\r\n\r\n你需要手动下载 VTFCmd 并安装到本程序的同一目录下。";
             // 
-            // checkResizeImage
-            // 
-            checkResizeImage.AutoSize = true;
-            checkResizeImage.Location = new Point(391, 70);
-            checkResizeImage.Name = "checkResizeImage";
-            checkResizeImage.Size = new Size(160, 23);
-            checkResizeImage.TabIndex = 5;
-            checkResizeImage.Text = "缩小图片到50%的尺寸";
-            checkResizeImage.UseVisualStyleBackColor = true;
-            // 
             // ButStart
             // 
             ButStart.Location = new Point(449, 186);
@@ -114,12 +105,32 @@
             ButDownloadVtfcmd.UseVisualStyleBackColor = true;
             ButDownloadVtfcmd.Click += ButDownloadVtfcmd_Click;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(304, 69);
+            label4.Name = "label4";
+            label4.Size = new Size(167, 19);
+            label4.TabIndex = 8;
+            label4.Text = "限制图片长宽在多少px内：";
+            // 
+            // ListImageWidthLimit
+            // 
+            ListImageWidthLimit.DropDownStyle = ComboBoxStyle.DropDownList;
+            ListImageWidthLimit.FormattingEnabled = true;
+            ListImageWidthLimit.Items.AddRange(new object[] { "不修改图片大小", "4096", "2048", "1024", "512", "256", "128", "64" });
+            ListImageWidthLimit.Location = new Point(477, 69);
+            ListImageWidthLimit.Name = "ListImageWidthLimit";
+            ListImageWidthLimit.Size = new Size(133, 27);
+            ListImageWidthLimit.TabIndex = 9;
+            // 
             // VtfCompress
             // 
             AutoScaleMode = AutoScaleMode.None;
+            Controls.Add(ListImageWidthLimit);
+            Controls.Add(label4);
             Controls.Add(ButDownloadVtfcmd);
             Controls.Add(ButStart);
-            Controls.Add(checkResizeImage);
             Controls.Add(label3);
             Controls.Add(TxtFileSizeLimit);
             Controls.Add(label2);
@@ -140,8 +151,9 @@
         private Label label2;
         private NumericUpDown TxtFileSizeLimit;
         private Label label3;
-        private CheckBox checkResizeImage;
         private Button ButStart;
         private Button ButDownloadVtfcmd;
+        private Label label4;
+        private ComboBox ListImageWidthLimit;
     }
 }

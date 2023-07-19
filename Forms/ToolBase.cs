@@ -74,6 +74,23 @@ namespace BuyiTools
                     var n = (NumericUpDown)ct;
                     n.Value = Math.Clamp(InputData.GetNumber(key, n.Value), n.Minimum, n.Maximum);
                 }
+                else if (ct is ComboBox)
+                {
+                    var n = (ComboBox)ct;
+                    var target = InputData.GetString(key, string.Empty);
+                    if (!string.IsNullOrEmpty(target))
+                    {
+                        for (int i = 0; i < n.Items.Count; i++)
+                        {
+                            var txt = n.Items[i].ToString();
+                            if (target.Equals(txt))
+                            {
+                                n.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                }
                 else
                 {
                     ok = false;
@@ -101,6 +118,21 @@ namespace BuyiTools
                         var n = (NumericUpDown)ct;
                         InputData.SetNumber(key, n.Value);
                     }
+                    else if (ct is ComboBox)
+                    {
+                        var n = (ComboBox)ct;
+                        var obj = n.SelectedItem;
+                        var s = string.Empty;
+                        if (obj != null)
+                        {
+                            var tmp = obj.ToString();
+                            if (!string.IsNullOrEmpty(tmp))
+                            {
+                                s = tmp;
+                            }
+                        }
+                        InputData.SetString(key, s);
+                    }
                 }
                 InputData.SaveToFile();
             }
@@ -126,12 +158,12 @@ namespace BuyiTools
         /// </summary>
         protected Exception? DoWork(Action action)
         {
-            SetFullProgress(0);
             this.Invoke(() =>
             {
+                SetFullProgress(0);
                 this.Enabled = false;
+                SaveControlsDataToFile();
             });
-            SaveControlsDataToFile();
             Exception? error = null;
             try
             {
