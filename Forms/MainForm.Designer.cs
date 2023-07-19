@@ -41,6 +41,7 @@
             TimerMoveRandom = new System.Windows.Forms.Timer(components);
             BarWorkProgress = new ProgressBar();
             TimerUpdateProgress = new System.Windows.Forms.Timer(components);
+            OpenAppPathToolStripMenuItem = new ToolStripMenuItem();
             TopMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -66,7 +67,7 @@
             // MenuAdvanced
             // 
             MenuAdvanced.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            MenuAdvanced.DropDownItems.AddRange(new ToolStripItem[] { LastErrorDetailToolStripMenuItem, ButRestartAsAdmin });
+            MenuAdvanced.DropDownItems.AddRange(new ToolStripItem[] { LastErrorDetailToolStripMenuItem, OpenAppPathToolStripMenuItem, ButRestartAsAdmin });
             MenuAdvanced.ImageTransparentColor = Color.Magenta;
             MenuAdvanced.Name = "MenuAdvanced";
             MenuAdvanced.Size = new Size(52, 24);
@@ -143,6 +144,13 @@
             TimerUpdateProgress.Interval = 30;
             TimerUpdateProgress.Tick += TimerUpdateProgress_Tick;
             // 
+            // openAppPathToolStripMenuItem
+            // 
+            OpenAppPathToolStripMenuItem.Name = "openAppPathToolStripMenuItem";
+            OpenAppPathToolStripMenuItem.Size = new Size(228, 24);
+            OpenAppPathToolStripMenuItem.Text = "打开本程序的安装目录";
+            OpenAppPathToolStripMenuItem.Click += OpenAppPathToolStripMenuItem_Click;
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -182,5 +190,6 @@
         private System.Windows.Forms.Timer TimerMoveRandom;
         private ProgressBar BarWorkProgress;
         private System.Windows.Forms.Timer TimerUpdateProgress;
+        private ToolStripMenuItem OpenAppPathToolStripMenuItem;
     }
 }

@@ -21,6 +21,7 @@ namespace BuyiTools
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            Environment.CurrentDirectory = AppContext.BaseDirectory;
             this.Icon = Resources.icon;
             var versionStr = Resources.ReleaseVersion;
             currentVersion = Version.Parse(versionStr);
@@ -33,6 +34,7 @@ namespace BuyiTools
             RegisterTool<SmDumpParser>("SourceMod 句柄 Dump 日志解析");
             RegisterTool<MdlTextureFinder>("MDL 模型贴图打包");
             RegisterTool<FolderCombiner>("文件夹合并");
+            RegisterTool<VtfCompress>("VTF 压缩");
             var args = Environment.GetCommandLineArgs();
             if (args != null && args.Length > 1)
             {
@@ -177,6 +179,11 @@ namespace BuyiTools
             }
             return;
         }
+
+        private void OpenAppPathToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using var proc = Process.Start("explorer.exe", AppContext.BaseDirectory);
+        }
         #endregion
 
         #region 关于
@@ -219,5 +226,6 @@ namespace BuyiTools
             }
         }
         #endregion
+
     }
 }
