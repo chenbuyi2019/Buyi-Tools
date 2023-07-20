@@ -48,6 +48,7 @@
             // TxtFolders
             // 
             TxtFolders.Location = new Point(14, 31);
+            TxtFolders.MaxLength = 999999;
             TxtFolders.Multiline = true;
             TxtFolders.Name = "TxtFolders";
             TxtFolders.ScrollBars = ScrollBars.Both;

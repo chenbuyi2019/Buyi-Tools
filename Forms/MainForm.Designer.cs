@@ -33,6 +33,7 @@
             MenuTools = new ToolStripDropDownButton();
             MenuAdvanced = new ToolStripDropDownButton();
             LastErrorDetailToolStripMenuItem = new ToolStripMenuItem();
+            OpenAppPathToolStripMenuItem = new ToolStripMenuItem();
             ButRestartAsAdmin = new ToolStripMenuItem();
             MenuAbout = new ToolStripDropDownButton();
             githubUrlToolStripMenuItem = new ToolStripMenuItem();
@@ -41,7 +42,6 @@
             TimerMoveRandom = new System.Windows.Forms.Timer(components);
             BarWorkProgress = new ProgressBar();
             TimerUpdateProgress = new System.Windows.Forms.Timer(components);
-            OpenAppPathToolStripMenuItem = new ToolStripMenuItem();
             TopMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -80,6 +80,13 @@
             LastErrorDetailToolStripMenuItem.Text = "查看最近的错误细节";
             LastErrorDetailToolStripMenuItem.Click += LastErrorDetailToolStripMenuItem_Click;
             // 
+            // OpenAppPathToolStripMenuItem
+            // 
+            OpenAppPathToolStripMenuItem.Name = "OpenAppPathToolStripMenuItem";
+            OpenAppPathToolStripMenuItem.Size = new Size(228, 24);
+            OpenAppPathToolStripMenuItem.Text = "打开本程序的安装目录";
+            OpenAppPathToolStripMenuItem.Click += OpenAppPathToolStripMenuItem_Click;
+            // 
             // ButRestartAsAdmin
             // 
             ButRestartAsAdmin.Name = "ButRestartAsAdmin";
@@ -108,6 +115,7 @@
             TxtLog.Dock = DockStyle.Bottom;
             TxtLog.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             TxtLog.Location = new Point(0, 182);
+            TxtLog.MaxLength = 999999;
             TxtLog.Multiline = true;
             TxtLog.Name = "TxtLog";
             TxtLog.ReadOnly = true;
@@ -143,13 +151,6 @@
             // 
             TimerUpdateProgress.Interval = 30;
             TimerUpdateProgress.Tick += TimerUpdateProgress_Tick;
-            // 
-            // openAppPathToolStripMenuItem
-            // 
-            OpenAppPathToolStripMenuItem.Name = "openAppPathToolStripMenuItem";
-            OpenAppPathToolStripMenuItem.Size = new Size(228, 24);
-            OpenAppPathToolStripMenuItem.Text = "打开本程序的安装目录";
-            OpenAppPathToolStripMenuItem.Click += OpenAppPathToolStripMenuItem_Click;
             // 
             // MainForm
             // 

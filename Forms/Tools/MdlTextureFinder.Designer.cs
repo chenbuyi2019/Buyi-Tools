@@ -49,7 +49,7 @@
             // 
             TxtMdlFiles.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
             TxtMdlFiles.Location = new Point(13, 32);
-            TxtMdlFiles.MaxLength = 9999;
+            TxtMdlFiles.MaxLength = 999999;
             TxtMdlFiles.Multiline = true;
             TxtMdlFiles.Name = "TxtMdlFiles";
             TxtMdlFiles.ScrollBars = ScrollBars.Both;

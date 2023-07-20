@@ -61,7 +61,7 @@
             // 
             TxtTargetFiles.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             TxtTargetFiles.Location = new Point(83, 40);
-            TxtTargetFiles.MaxLength = 9900;
+            TxtTargetFiles.MaxLength = 999999;
             TxtTargetFiles.Multiline = true;
             TxtTargetFiles.Name = "TxtTargetFiles";
             TxtTargetFiles.ScrollBars = ScrollBars.Both;

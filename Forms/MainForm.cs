@@ -75,9 +75,9 @@ namespace BuyiTools
             if (string.IsNullOrEmpty(str) || TxtLog.IsDisposed) { return; }
             Debug.WriteLine(str);
             TxtLog.AppendText(str + "\r\n");
-            if (TxtLog.TextLength > 9999)
+            if (TxtLog.TextLength > 99999)
             {
-                TxtLog.Text = TxtLog.Text.Substring(5000);
+                TxtLog.Text = TxtLog.Text.Substring(80000);
             }
             TxtLog.Select(TxtLog.TextLength, 0);
             TxtLog.ScrollToCaret();

@@ -88,6 +88,7 @@
             // TxtLinks
             // 
             TxtLinks.Location = new Point(12, 76);
+            TxtLinks.MaxLength = 999999;
             TxtLinks.Multiline = true;
             TxtLinks.Name = "TxtLinks";
             TxtLinks.ScrollBars = ScrollBars.Both;
