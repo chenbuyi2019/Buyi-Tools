@@ -143,7 +143,7 @@ namespace BuyiTools.Forms.Tools
 
         private void ButDownloadVtfcmd_Click(object sender, EventArgs e)
         {
-            using var proc = Process.Start("explorer.exe", "https://github.com/chenbuyi2019/Buyi-Tools/raw/master/ThirdPartyTools/VTFCmd%20x64.7z");
+            using var proc = Process.Start("explorer.exe", "https://raw.githubusercontent.com/chenbuyi2019/Buyi-Tools/master/ThirdPartyTools/VTFCmd_x64.7z");
         }
     }
 }
