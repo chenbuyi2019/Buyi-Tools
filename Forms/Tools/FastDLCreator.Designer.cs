@@ -35,6 +35,8 @@
             ButCopyPaths = new Button();
             ButMakeBz2 = new Button();
             label3 = new Label();
+            ButRenameLower = new Button();
+            ButRenameUpper = new Button();
             ((System.ComponentModel.ISupportInitialize)TxtMaxCompressSize).BeginInit();
             SuspendLayout();
             // 
@@ -75,7 +77,7 @@
             // 
             // ButCopyPaths
             // 
-            ButCopyPaths.Location = new Point(400, 108);
+            ButCopyPaths.Location = new Point(574, 81);
             ButCopyPaths.Name = "ButCopyPaths";
             ButCopyPaths.Size = new Size(168, 27);
             ButCopyPaths.TabIndex = 4;
@@ -85,7 +87,7 @@
             // 
             // ButMakeBz2
             // 
-            ButMakeBz2.Location = new Point(574, 108);
+            ButMakeBz2.Location = new Point(574, 114);
             ButMakeBz2.Name = "ButMakeBz2";
             ButMakeBz2.Size = new Size(168, 27);
             ButMakeBz2.TabIndex = 5;
@@ -102,9 +104,31 @@
             label3.TabIndex = 6;
             label3.Text = "说明：\r\n工具会把目标文件夹里的全部文件打包为 .bz2\r\n但是会跳过文件大小过大的文件\r\n输出会在目标文件夹旁的 \"名字-bz2\" 文件夹里";
             // 
+            // ButRenameLower
+            // 
+            ButRenameLower.Location = new Point(574, 48);
+            ButRenameLower.Name = "ButRenameLower";
+            ButRenameLower.Size = new Size(168, 27);
+            ButRenameLower.TabIndex = 7;
+            ButRenameLower.Text = "全部重命名为小写";
+            ButRenameLower.UseVisualStyleBackColor = true;
+            ButRenameLower.Click += ButRenameLower_Click;
+            // 
+            // ButRenameUpper
+            // 
+            ButRenameUpper.Location = new Point(400, 48);
+            ButRenameUpper.Name = "ButRenameUpper";
+            ButRenameUpper.Size = new Size(168, 27);
+            ButRenameUpper.TabIndex = 8;
+            ButRenameUpper.Text = "全部重命名为大写";
+            ButRenameUpper.UseVisualStyleBackColor = true;
+            ButRenameUpper.Click += ButRenameUpper_Click;
+            // 
             // FastDLCreator
             // 
             AutoScaleMode = AutoScaleMode.None;
+            Controls.Add(ButRenameUpper);
+            Controls.Add(ButRenameLower);
             Controls.Add(label3);
             Controls.Add(ButMakeBz2);
             Controls.Add(ButCopyPaths);
@@ -129,5 +153,7 @@
         private Button ButCopyPaths;
         private Button ButMakeBz2;
         private Label label3;
+        private Button ButRenameLower;
+        private Button ButRenameUpper;
     }
 }

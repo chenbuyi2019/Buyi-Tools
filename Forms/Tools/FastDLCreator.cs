@@ -69,6 +69,75 @@ namespace BuyiTools.Forms.Tools
             });
         }
 
+        private void ButRenameLower_Click(object sender, EventArgs e)
+        {
+            RenameFiles(false);
+        }
+
+        private void ButRenameUpper_Click(object sender, EventArgs e)
+        {
+            RenameFiles(true);
+        }
+
+        private void RenameFiles(bool upperCase)
+        {
+            DoWorkAsync(() =>
+            {
+                var data = MustGetTargetFileList();
+                var fileCount = data.Item2.Length;
+                Log($"扫描到 {fileCount} 个文件");
+                SetFullProgress(1 + fileCount);
+                foreach (var file in data.Item2)
+                {
+                    var n1 = file.Name;
+                    var n = upperCase ? n1.ToUpper() : n1.ToLower();
+                    if (!n.Equals(n1))
+                    {
+                        var dir = file.DirectoryName;
+                        if (string.IsNullOrEmpty(dir))
+                        {
+                            throw new Exception($"无法定位重命名路径 {file.FullName}");
+                        }
+                        file.MoveTo(Path.Combine(dir, n));
+                        Log($"重命名了 {file.FullName}");
+                    }
+                    AddProgress();
+                }
+                Log($"扫描和处理文件夹...");
+                while (true)
+                {
+                    var nochange = true;
+                    var dirs = data.Item1.EnumerateDirectories("*", enumerationDirOptions);
+                    foreach (var d in dirs)
+                    {
+                        var n1 = d.Name;
+                        var n = upperCase ? n1.ToUpper() : n1.ToLower();
+                        if (!n.Equals(n1))
+                        {
+                            var parent = d.Parent;
+                            if (parent == null) { continue; }
+                            var dir = parent.FullName;
+                            var middle = string.Empty;
+                            for (uint i = 0; i < 999999; i++)
+                            {
+                                middle = Path.Combine(dir, $"{i}{n}");
+                                if (Directory.Exists(middle) || File.Exists(middle)) { continue; }
+                                break;
+                            }
+                            d.MoveTo(middle);
+                            var final = Path.Combine(dir, n);
+                            d.MoveTo(final);
+                            Log($"重命名了 {d.FullName}");
+                            nochange = false;
+                            break;
+                        }
+                    }
+                    if (nochange) { break; }
+                }
+                AddProgress();
+            });
+        }
+
         private void ButMakeBz2_Click(object sender, EventArgs e)
         {
             DoWorkAsync(() =>
@@ -89,7 +158,7 @@ namespace BuyiTools.Forms.Tools
                 {
                     AddProgress();
                     var rel = Utils.CleanPath(Path.GetRelativePath(rootPath, rawfile.FullName));
-                    var outFilePath = Path.Combine(outDirPath, rel) ;
+                    var outFilePath = Path.Combine(outDirPath, rel);
                     var dir = Path.GetDirectoryName(outFilePath);
                     if (string.IsNullOrEmpty(dir)) { throw new Exception("无法识别输出文件夹的位置"); }
                     Directory.CreateDirectory(dir);
@@ -99,7 +168,7 @@ namespace BuyiTools.Forms.Tools
                     if (len > sizeLimit || len < 1)
                     {
                         Log($"文件过大或空白,直接复制 {rel} {Utils.FormatBytesLength(len)}");
-                        rawfile.CopyTo(outFilePath,true);
+                        rawfile.CopyTo(outFilePath, true);
                         len2 = len;
                     }
                     else
@@ -121,5 +190,6 @@ namespace BuyiTools.Forms.Tools
                 Log($"输出文件夹 {outDirPath}");
             });
         }
+
     }
 }
