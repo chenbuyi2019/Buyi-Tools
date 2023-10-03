@@ -1,13 +1,6 @@
-﻿using SharpCompress.Compressors.BZip2;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
+﻿
 using System.Text;
 using System.Threading.Tasks;
-using SharpCompress.Compressors;
 
 namespace BuyiTools.Forms.Tools
 {
@@ -81,6 +74,13 @@ namespace BuyiTools.Forms.Tools
 
         private void RenameFiles(bool upperCase)
         {
+            var q = upperCase ? "大写" : "小写";
+            var r = MessageBox.Show($"你确定要全部改成{q}文件名吗？ 此操作无法撤回", "请问", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (r != DialogResult.OK)
+            {
+                Log("取消重命名操作");
+                return;
+            }
             DoWorkAsync(() =>
             {
                 var data = MustGetTargetFileList();
@@ -162,6 +162,10 @@ namespace BuyiTools.Forms.Tools
                     var dir = Path.GetDirectoryName(outFilePath);
                     if (string.IsNullOrEmpty(dir)) { throw new Exception("无法识别输出文件夹的位置"); }
                     Directory.CreateDirectory(dir);
+                    if (File.Exists(outFilePath))
+                    {
+                        File.Delete(outFilePath);
+                    }
                     long len = rawfile.Length;
                     totalLen += len;
                     long len2 = 0;
@@ -174,13 +178,11 @@ namespace BuyiTools.Forms.Tools
                     else
                     {
                         outFilePath += ".bz2";
-                        using var inStream = rawfile.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
-                        using var outStream = File.Create(outFilePath);
-                        using var bz2s = new BZip2Stream(outStream, CompressionMode.Compress, false);
-                        inStream.CopyTo(bz2s);
-                        bz2s.Close();
-                        inStream.Close();
-                        outStream.Close();
+                        if (File.Exists(outFilePath))
+                        {
+                            File.Delete(outFilePath);
+                        }
+                        Utils.Run7zCmd("a", outFilePath, rawfile.FullName);
                         len2 = Utils.GetFileLength(outFilePath);
                         Log($"{rel} 压缩前 {Utils.FormatBytesLength(len)} 压缩后 {Utils.FormatBytesLength(len2)}");
                     }

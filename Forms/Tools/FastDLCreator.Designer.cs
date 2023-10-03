@@ -106,7 +106,7 @@
             // 
             // ButRenameLower
             // 
-            ButRenameLower.Location = new Point(574, 48);
+            ButRenameLower.Location = new Point(329, 114);
             ButRenameLower.Name = "ButRenameLower";
             ButRenameLower.Size = new Size(168, 27);
             ButRenameLower.TabIndex = 7;
@@ -116,7 +116,7 @@
             // 
             // ButRenameUpper
             // 
-            ButRenameUpper.Location = new Point(400, 48);
+            ButRenameUpper.Location = new Point(329, 81);
             ButRenameUpper.Name = "ButRenameUpper";
             ButRenameUpper.Size = new Size(168, 27);
             ButRenameUpper.TabIndex = 8;

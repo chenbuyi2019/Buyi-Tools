@@ -81,9 +81,9 @@
             label3.AutoSize = true;
             label3.Location = new Point(3, 112);
             label3.Name = "label3";
-            label3.Size = new Size(493, 95);
+            label3.Size = new Size(493, 57);
             label3.TabIndex = 4;
-            label3.Text = "本工具会把文件夹路径内的超过指定文件大小的 vtf 进行压缩。（单个vtf文件也行）\r\n压缩的成果会被放在桌面上的新建文件夹。 \r\n压缩一律使用 DXT1+DXT5 Alpha 。\r\n\r\n你需要手动下载 VTFCmd 并安装到本程序的同一目录下。";
+            label3.Text = "本工具会把文件夹路径内的超过指定文件大小的 vtf 进行压缩。（单个vtf文件也行）\r\n压缩的成果会被放在桌面上的新建文件夹。 \r\n压缩一律使用 DXT1+DXT5 Alpha 。\r\n";
             // 
             // ButStart
             // 

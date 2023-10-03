@@ -181,5 +181,20 @@ namespace BuyiTools
             if (str.EndsWith(suffix, compare)) { return str.Substring(0, str.Length - suffix.Length); }
             return str;
         }
+
+        private static readonly string p7zPath = Path.Combine(AppContext.BaseDirectory, "lib", "7z", "7z.exe");
+
+        /// <summary>
+        /// 执行 7z.exe ，如果有错误会抛出error
+        /// </summary>
+        public static void Run7zCmd(params string[] args)
+        {
+            var result = RunCmd(p7zPath, args, null, 1000 * 600);
+            var err = result[1].Trim();
+            if (err.Length >= 1)
+            {
+                throw new Exception(err);
+            }
+        }
     }
 }
