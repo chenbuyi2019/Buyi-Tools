@@ -1,5 +1,4 @@
-﻿using SharpCompress.Compressors.BZip2;
-using SharpCompress.Compressors;
+﻿
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -81,11 +80,20 @@ namespace BuyiTools.Forms.Tools
                         var bz2url = url + ".bz2";
                         Log($"尝试 {bz2url}");
                         using var httpStream = httpClient.GetStreamAsync(bz2url).Result;
-                        using var bz2Stream = new BZip2Stream(httpStream, CompressionMode.Decompress, true);
                         Directory.CreateDirectory(dir);
-                        using var fileStream = File.Create(outFile);
-                        bz2Stream.CopyTo(fileStream);
-                        Log($"成功 {Utils.FormatBytesLength(fileStream.Position)} {link}");
+                        var outfilebz2 = outFile + ".bz2";
+                        using var fileStream = File.Create(outfilebz2);
+                        httpStream.CopyTo(fileStream);
+                        fileStream.Close();
+                        httpStream.Close();
+                        Utils.Run7zCmd("e", outfilebz2, "-o" + dir.Replace('\\', '/'), "-y");
+                        File.Delete(outfilebz2);
+                        var info = new FileInfo(outFile);
+                        if (!info.Exists)
+                        {
+                            throw new Exception($"无法下载和解压");
+                        }
+                        Log($"成功 {Utils.FormatBytesLength(info.Length)} {link}");
                         continue;
                     }
                     catch (Exception ex)

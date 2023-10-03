@@ -13,7 +13,7 @@ namespace BuyiTools.Forms.Tools
 {
     public partial class VtfCompress : ToolBase
     {
-        private static readonly string vtfCmdPath = Path.Combine(AppContext.BaseDirectory, "vtfcmd.exe");
+        private static readonly string vtfCmdPath = Path.Combine(AppContext.BaseDirectory, "lib", "vtfcmd", "vtfcmd.exe");
 
         public VtfCompress()
         {
