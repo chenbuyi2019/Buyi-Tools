@@ -39,7 +39,9 @@ namespace BuyiTools
                 FileName = program,
                 RedirectStandardError = true,
                 RedirectStandardOutput = true,
-                UseShellExecute = false
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden
             };
             if (!string.IsNullOrWhiteSpace(workingDir))
             {
