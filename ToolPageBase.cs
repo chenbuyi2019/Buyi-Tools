@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
@@ -16,6 +17,8 @@ namespace BuyiTools
         public ToolPageBase() : base()
         {
         }
+
+        public MetroWindow? Window { get; set; } = null;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -29,6 +32,43 @@ namespace BuyiTools
         public void Log(string? msg)
         {
             LogEvent?.Invoke(this, new LogEventArgs(msg));
+        }
+
+        public static void RegisterTextboxDropFilePath(params TextBox[] textbox)
+        {
+            static void OnDragOver(object sender, DragEventArgs e)
+            {
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                {
+                    e.Effects = DragDropEffects.All;
+                }
+                else
+                {
+                    e.Effects = DragDropEffects.None;
+                }
+                e.Handled = false;
+            }
+            static void OnDragDrop(object sender, DragEventArgs e)
+            {
+                if (sender == null || sender is not TextBox txt) { return; }
+                var data = e.Data?.GetData(DataFormats.FileDrop);
+                if (data == null || data is not IEnumerable<string> array) { return; }
+                var sb = new StringBuilder();
+                foreach (var v in array)
+                {
+                    if (string.IsNullOrEmpty(v)) { continue; }
+                    if (sb.Length > 0) { sb.AppendLine(); }
+                    sb.Append(v);
+                    if (!txt.AcceptsReturn) { break; }
+                }
+                if (sb.Length > 0) { txt.Text = sb.ToString(); }
+            }
+            foreach (var item in textbox)
+            {
+                item.AllowDrop = true;
+                item.AddHandler(TextBox.DragOverEvent, new DragEventHandler(OnDragOver), true);
+                item.AddHandler(TextBox.DropEvent, new DragEventHandler(OnDragDrop), true);
+            }
         }
 
         #region 数据保存

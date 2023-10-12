@@ -55,7 +55,8 @@ namespace BuyiTools
         {
             AllTools.Clear();
             AllTools.Add(new ToolInfo("隐藏进程窗口", nameof(HideProcessWindow)));
-            AllTools.Add(new ToolInfo("FastDL 下载器", nameof(FastDLDownloader)));
+            AllTools.Add(new ToolInfo("FastDL 生成", nameof(FastDLCreator)));
+            AllTools.Add(new ToolInfo("FastDL 下载", nameof(FastDLDownloader)));
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -140,6 +141,7 @@ namespace BuyiTools
         {
             if (e.Content is not ToolPageBase page) { return; }
             OpenedPage = page;
+            page.Window = this;
             page.LogEvent += Page_LogEvent;
             page.Loaded += ToolPage_Loaded;
         }
@@ -158,6 +160,8 @@ namespace BuyiTools
             var r = new Random();
             this.Left = Math.Max(3, screenSize.Width - this.ActualWidth + r.Next(-10, 20)) / 2;
             this.Top = Math.Max(3, screenSize.Height - this.ActualHeight + r.Next(-10, 15)) / 2;
+            this.MinWidth = this.ActualWidth * 0.9;
+            this.MinHeight = this.ActualHeight * 0.9;
         }
 
         private void MainWindow_Closed(object sender, EventArgs e)
