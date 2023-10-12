@@ -8,13 +8,17 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Green.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="Page" BasedOn="{StaticResource MahApps.Styles.Page}">
                 <Setter Property="FontFamily" Value="Microsoft YaHei UI"></Setter>
                 <Setter Property="FontSize" Value="13"></Setter>
             </Style>
             <Style TargetType="Label" BasedOn="{StaticResource MahApps.Styles.Label}">
+                <Setter Property="FontFamily" Value="Microsoft YaHei UI"></Setter>
+                <Setter Property="FontSize" Value="13"></Setter>
+            </Style>
+            <Style TargetType="CheckBox" BasedOn="{StaticResource MahApps.Styles.CheckBox}">
                 <Setter Property="FontFamily" Value="Microsoft YaHei UI"></Setter>
                 <Setter Property="FontSize" Value="13"></Setter>
             </Style>
