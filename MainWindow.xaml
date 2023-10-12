@@ -1,0 +1,31 @@
+﻿<mah:MetroWindow  x:Class="BuyiTools.MainWindow" x:Name="mainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:local="clr-namespace:BuyiTools"
+        mc:Ignorable="d"
+        Height="450" Width="600" WindowStartupLocation="CenterScreen"
+        Loaded="MainWindow_Loaded" Closed="MainWindow_Closed">
+    <DockPanel>
+        <Menu IsMainMenu="True" DockPanel.Dock="Top" FontFamily="Microsoft YaHei UI">
+            <MenuItem Header="工具" ItemsSource="{Binding ElementName=mainWindow,Path=AllTools}" Click="ToolMenuItem_Click">
+            </MenuItem>
+            <MenuItem Header="高级">
+                <MenuItem x:Name="btnOpenFolder" Header="打开软件目录" Click="BtnOpenFolder_Click"></MenuItem>
+                <MenuItem x:Name="btnRestartAdmin" Header="以管理员权限重启" Click="BtnRestartAdmin_Click"></MenuItem>
+                <MenuItem x:Name="btnViewLastError" Header="查看最近一次出错的细节" Click="BtnViewLastError_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="关于">
+            </MenuItem>
+        </Menu>
+        <Frame x:Name="toolFrame" DockPanel.Dock="Top" 
+               MinHeight="150" Margin="0,3,0,3" 
+               LoadCompleted="ToolFrame_LoadCompleted"></Frame>
+        <TextBox x:Name="txtLog"
+                 AcceptsReturn="True" TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Visible"
+                 IsReadOnly="True" Text="{Binding ElementName=mainWindow,Path=TotalLog}" TextChanged="TxtLog_TextChanged"></TextBox>
+       </DockPanel>
+</mah:MetroWindow>

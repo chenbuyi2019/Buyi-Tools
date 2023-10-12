@@ -1,0 +1,22 @@
+﻿<local:ToolPageBase x:Class="BuyiTools.Tools.HideProcessWindow"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BuyiTools"
+      mc:Ignorable="d" d:DesignWidth="371.2" Loaded="HideProcessWindow_Load"
+      Title="HideProcessWindow" Height="215">
+
+    <StackPanel HorizontalAlignment="Center">
+        <Label>目标进程名：</Label>
+        <TextBox x:Name="TxtTargetName" Margin="3,3,0,3" ></TextBox>
+        <Button x:Name="ButShowThem" Margin="3,3,0,3" Width="150" HorizontalAlignment="Left" Click="ButShowThem_Click">显示它们</Button>
+        <Button x:Name="ButHideThem" Margin="3,3,0,3" Width="150" HorizontalAlignment="Left" Click="ButHideThem_Click">隐藏它们</Button>
+        <TextBlock TextWrapping="Wrap">说明：
+            <LineBreak />
+根据进程的名字，把所有同名进程的主窗口隐藏或显示。
+            <LineBreak />
+目标的名字不要写后缀名 .exe
+        </TextBlock>
+    </StackPanel>
+</local:ToolPageBase>

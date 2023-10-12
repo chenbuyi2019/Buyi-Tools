@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BuyiTools": {
+      "commandName": "Project",
+      "commandLineArgs": "-tool t13"
+    }
+  }
+}
