@@ -9,6 +9,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
@@ -20,6 +22,7 @@ namespace BuyiTools
 {
     public partial class MainWindow : MetroWindow, INotifyPropertyChanged
     {
+        private Version currentVersion = new();
         public string GreatTitle = "布衣工具箱";
 
         public MainWindow()
@@ -29,6 +32,7 @@ namespace BuyiTools
             this.MinWidth = this.Width;
             this.MinHeight = this.Height;
             var versionStr = BuyiTools.Properties.Resources.ReleaseVersion;
+            currentVersion = Version.Parse(versionStr);
             this.GreatTitle += " " + versionStr;
             this.Title = this.GreatTitle;
             RegisterTools();
@@ -68,7 +72,6 @@ namespace BuyiTools
             AllTools.Add(new ToolInfo("MDL 贴图打包", nameof(MdlTextureFinder)));
             AllTools.Add(new ToolInfo("VTF 贴图压缩", nameof(VtfCompress)));
             AllTools.Add(new ToolInfo("SourceMod Dump Handles 分析", nameof(SmDumpParser)));
-
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -76,6 +79,7 @@ namespace BuyiTools
             var rnd = new Random();
             this.Left += rnd.Next(-32, 32);
             this.Top += rnd.Next(-32, 40);
+            CheckUpdate();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -183,6 +187,7 @@ namespace BuyiTools
             Environment.Exit(0);
         }
 
+        #region 高级
         private void BtnOpenFolder_Click(object sender, EventArgs e)
         {
             Utils.OpenProcess(AppContext.BaseDirectory);
@@ -200,16 +205,6 @@ namespace BuyiTools
             }
         }
 
-        private void BtnViewSource_Click(object sender, EventArgs e)
-        {
-            Utils.OpenProcess("https://github.com/chenbuyi2019/Buyi-Tools");
-        }
-
-        private void BtnViewWebsite_Click(object sender, EventArgs e)
-        {
-            Utils.OpenProcess("https://buyi.dev/");
-        }
-
         private void BtnViewLastError_Click(object sender, EventArgs e)
         {
             var sets = new MetroDialogSettings() { AnimateShow = false, AnimateHide = false };
@@ -222,6 +217,54 @@ namespace BuyiTools
             this.ShowMessageAsync($"最近的一次出错 {ex.GetType().FullName}",
                 ex.ToString(), MessageDialogStyle.Affirmative, sets);
         }
+
+        #endregion
+
+        #region 关于
+        private void BtnViewSource_Click(object sender, EventArgs e)
+        {
+            Utils.OpenProcess("https://github.com/chenbuyi2019/Buyi-Tools");
+        }
+
+        private void BtnViewWebsite_Click(object sender, EventArgs e)
+        {
+            Utils.OpenProcess("https://buyi.dev/");
+        }
+
+        private async void CheckUpdate()
+        {
+            using var client = new HttpClient()
+            {
+                BaseAddress = new Uri("https://raw.githubusercontent.com/chenbuyi2019/Buyi-Tools/master/"),
+                Timeout = new TimeSpan(0, 0, 6)
+            };
+            try
+            {
+                var text = await client.GetStringAsync("ReleaseVersion.txt");
+                if (string.IsNullOrWhiteSpace(text))
+                {
+                    throw new Exception("获取到的版本号是空白");
+                }
+                if (!Version.TryParse(text, out Version? newVersion))
+                {
+                    throw new Exception($"获取到的版本号无法被识别: {text}");
+                }
+                if (currentVersion < newVersion)
+                {
+                    Log($"发现新版本: {newVersion}");
+                    Log($"https://github.com/chenbuyi2019/Buyi-Tools/releases");
+                }
+                else
+                {
+                    Log($"没有发现新版本 {newVersion}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log($"检测更新出错: {ex.Message}");
+            }
+        }
+        #endregion
 
         #region 日志
         private string _log = string.Empty;
