@@ -4,27 +4,29 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:BuyiTools"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      mc:Ignorable="d"  Loaded="MklinkTool_Load"
+      d:DesignHeight="550" d:DesignWidth="800"
       Title="MklinkTool">
 
-    <Grid Margin="5,5,5,5">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
+    <StackPanel>
         <Label>母体文件夹：</Label>
         <TextBox x:Name="TxtParentFolder" Grid.Column="1" MaxLength="520"
-                 Margin="5,5,5,5"></TextBox>
-        <TextBlock Grid.Row="1">目标文件夹<LineBreak></LineBreak>一行一个：</TextBlock>
-        <TextBox x:Name="TxtTargetFolders" Grid.Row="1" Grid.Column="1" 
+                 Margin="5,5,5,5" TextChanged="TxtParentFolder_TextChanged"></TextBox>
+        <Label>目标文件夹，一行一个：</Label>
+        <TextBox x:Name="TxtTargetFolders" 
                  Margin="5,5,5,5"
-                 AcceptsReturn="True" Height="200"></TextBox>
-     
-    </Grid>
+                 AcceptsReturn="True" Height="150"></TextBox>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="{Binding ElementName=ListFiles,Path=CheckedItemsCount}" ContentStringFormat="链接对象：  （已经选中 {0:d}个）"></Label>
+            <Button x:Name="ButRefreshFileList" Width="150" Margin="10,2,2,2" Click="ButRefreshFileList_Click">
+                刷新文件列表
+            </Button>
+        </StackPanel>
+        <local:CheckListBox Height="150" x:Name="ListFiles"></local:CheckListBox>
+        <TextBlock>说明：<LineBreak />
+工具会在每个目标文件夹下创建一个或多个 mklink 符号链接<LineBreak />
+来源是母体文件夹下的指定对象</TextBlock>
+        <CheckBox x:Name="checkForceRemoveTargets" Margin="3,3,3,3" IsChecked="False">强制覆盖已经存在的目标</CheckBox>
+        <Button x:Name="ButCreate" Width="150" Click="ButCreate_Click">创建</Button>
+    </StackPanel>
 </local:ToolPageBase>

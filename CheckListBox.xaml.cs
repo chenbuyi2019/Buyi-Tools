@@ -47,11 +47,10 @@ namespace BuyiTools
             }
             set
             {
-
+                UIItems.Clear();
                 if (value == null)
                 {
                     items = Array.Empty<object>();
-                    UIItems.Clear();
                 }
                 else
                 {
@@ -64,7 +63,18 @@ namespace BuyiTools
                         UIItems.Add(uiItem);
                     }
                 }
+                CallCheckedChanged();
                 CallPropertyChanged(nameof(Items));
+            }
+        }
+
+        private int checkedItemsCount = 0;
+
+        public int CheckedItemsCount
+        {
+            get
+            {
+                return checkedItemsCount;
             }
         }
 
@@ -141,6 +151,8 @@ namespace BuyiTools
 
         public void CallCheckedChanged()
         {
+            checkedItemsCount = GetCheckedItems().Count;
+            CallPropertyChanged(nameof(checkedItemsCount));
             var a = new RoutedEventArgs(CheckedChangedEvent, this);
             RaiseEvent(a);
         }

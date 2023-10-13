@@ -22,7 +22,7 @@
         </Menu>
       
         <Frame x:Name="toolFrame" DockPanel.Dock="Top" 
-               MinHeight="150" Margin="0,3,0,3"
+               MinHeight="150" Margin="3,3,3,3"
                LoadCompleted="ToolFrame_LoadCompleted"></Frame>
         <TextBox x:Name="txtLog"
                  AcceptsReturn="True" TextWrapping="Wrap"

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:BuyiTools"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="150">
-    <ListBox x:Name="listMain"
+    <ListBox x:Name="listMain" Margin="2,2,2,2"
       ItemsSource="{Binding UIItems, ElementName=userControl}">
         <ListBox.ItemTemplate>
             <DataTemplate>
