@@ -27,10 +27,7 @@
                 <RowDefinition MinHeight="210"></RowDefinition>
             </Grid.RowDefinitions>
             <Label>目标预设：</Label>
-            <ScrollViewer Grid.Column="0" Grid.Row="1" Margin="5,5,5,5" VerticalScrollBarVisibility="Visible" MaxHeight="200">
-                <StackPanel x:Name="ListFileSets" CanVerticallyScroll="True">
-                </StackPanel>
-            </ScrollViewer>
+            <local:CheckListBox x:Name="ListFileSets" Grid.Column="0" Grid.Row="1" Margin="5,5,5,5" MaxHeight="194"></local:CheckListBox>
             <StackPanel Grid.Column="1" Grid.Row="1" >
                 <TextBlock>说明：<LineBreak />
 工具会把工作文件夹内相对路径符合目标的文件全部删除。<LineBreak />

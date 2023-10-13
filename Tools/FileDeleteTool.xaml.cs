@@ -22,8 +22,7 @@ namespace BuyiTools.Tools
 
         private static readonly string FileDeleteSetsDir = Path.Combine(AppContext.BaseDirectory, "FileDeleteSets");
         private static readonly Dictionary<string, string> FileDeleteSets = new();
-        private static readonly Dictionary<string, CheckBox> Checkboxes = new();
-
+     
         private void FileDeleteTool_Load(object sender, RoutedEventArgs e)
         {
             RegisterContorlSaveData(TxtTargetFiles, TxtWorkingDir);
@@ -37,28 +36,19 @@ namespace BuyiTools.Tools
                     var txt = File.ReadAllText(f.FullName);
                     var pureName = Path.ChangeExtension(f.Name, null);
                     FileDeleteSets.Add(pureName, txt);
-                    var checkbox = new CheckBox() { Content = pureName, IsChecked = false };
-                    ListFileSets.Children.Add(checkbox);
-                    checkbox.Margin = new Thickness(3, 3, 3, 1);
-                    Checkboxes.Add(pureName, checkbox);
                 }
                 else
                 {
                     Log($"跳过预设文件，因为文件过大 {f.FullName}");
                 }
             }
+            ListFileSets.Items = FileDeleteSets.Keys.ToArray();
         }
 
         private void ButStart_Click(object sender, EventArgs e)
         {
             var scanOnly = CheckScanOnly.IsChecked ?? true;
-            var checkedNames = new List<string>();
-            foreach (var kv in Checkboxes)
-            {
-                if (kv.Value.IsChecked != true) { continue; }
-                var key = kv.Key;
-                checkedNames.Add(key);
-            }
+            var checkedNames = ListFileSets.GetCheckedItems<string>();
             var p = Utils.CleanPath(TxtWorkingDir.Text);
             var targets = new List<string>();
             ParseLines(targets, TxtTargetFiles.Text);

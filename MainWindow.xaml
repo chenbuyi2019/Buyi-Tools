@@ -20,6 +20,7 @@
             <MenuItem Header="关于">
             </MenuItem>
         </Menu>
+      
         <Frame x:Name="toolFrame" DockPanel.Dock="Top" 
                MinHeight="150" Margin="0,3,0,3"
                LoadCompleted="ToolFrame_LoadCompleted"></Frame>
