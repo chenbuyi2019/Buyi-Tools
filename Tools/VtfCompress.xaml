@@ -1,0 +1,37 @@
+﻿<local:ToolPageBase x:Class="BuyiTools.Tools.VtfCompress"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:local="clr-namespace:BuyiTools"
+      mc:Ignorable="d"  Loaded="VtfCompress_Load"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="VtfCompress">
+
+    <StackPanel>
+        <Label>请输入 vtf 文件或文件夹的路径：</Label>
+        <TextBox x:Name="TxtFolder" MaxLength="520"></TextBox>
+        <Grid Margin="2,2,2,2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label>只压缩超过多少MB的文件：</Label>
+            <mah:NumericUpDown x:Name="TxtFileSizeLimit" Maximum="100" Interval="0.1" StringFormat="0.00"
+                               Grid.Column="1" Width="110" HorizontalAlignment="Left"
+                               Minimum="0.1" Value="1.4"></mah:NumericUpDown>
+            <Label Grid.Row="1">限制图片长宽在多少px内：</Label>
+            <ComboBox x:Name="ListImageWidthLimit" Width="200" Margin="0,3,0,3" Grid.Column="1" Grid.Row="1"></ComboBox>
+        </Grid>
+        <TextBlock>本工具会把文件夹路径内的超过指定文件大小的 vtf 进行压缩。（单个vtf文件也行）<LineBreak />
+压缩的成果会被放在桌面上的新建文件夹。 <LineBreak />
+压缩一律使用 DXT1+DXT5 Alpha 。
+        </TextBlock>
+        <Button x:Name="ButStart" Width="150" Click="ButStart_Click">开始</Button>
+    </StackPanel>
+</local:ToolPageBase>

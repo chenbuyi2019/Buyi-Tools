@@ -61,6 +61,7 @@ namespace BuyiTools
             AllTools.Add(new ToolInfo("文件夹合并", nameof(FolderCombiner)));
             AllTools.Add(new ToolInfo("Mklink 制作", nameof(MklinkTool)));
             AllTools.Add(new ToolInfo("MDL 贴图打包", nameof(MdlTextureFinder)));
+            AllTools.Add(new ToolInfo("VTF 贴图压缩", nameof(VtfCompress)));
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
