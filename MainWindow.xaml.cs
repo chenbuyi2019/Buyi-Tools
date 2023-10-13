@@ -60,6 +60,7 @@ namespace BuyiTools
             AllTools.Add(new ToolInfo("删除相对文件", nameof(FileDeleteTool)));
             AllTools.Add(new ToolInfo("文件夹合并", nameof(FolderCombiner)));
             AllTools.Add(new ToolInfo("Mklink 制作", nameof(MklinkTool)));
+            AllTools.Add(new ToolInfo("MDL 贴图打包", nameof(MdlTextureFinder)));
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)

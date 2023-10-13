@@ -14,7 +14,8 @@
                  Margin="5,5,5,5" TextChanged="TxtParentFolder_TextChanged"></TextBox>
         <Label>目标文件夹，一行一个：</Label>
         <TextBox x:Name="TxtTargetFolders" 
-                 Margin="5,5,5,5"
+                 Margin="5,5,5,5" TextWrapping="NoWrap"
+                 VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"
                  AcceptsReturn="True" Height="150"></TextBox>
         <StackPanel Orientation="Horizontal">
             <Label Content="{Binding ElementName=ListFiles,Path=CheckedItemsCount}" ContentStringFormat="链接对象：  （已经选中 {0:d}个）"></Label>
