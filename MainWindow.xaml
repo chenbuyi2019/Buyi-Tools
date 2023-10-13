@@ -18,6 +18,8 @@
                 <MenuItem x:Name="btnViewLastError" Header="查看最近一次出错的细节" Click="BtnViewLastError_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="关于">
+                <MenuItem x:Name="btnViewSource" Header="源码 on Github" Click="BtnViewSource_Click"></MenuItem>
+                <MenuItem x:Name="btnViewWebsite" Header="陈布衣的个人网站" Click="BtnViewWebsite_Click"></MenuItem>
             </MenuItem>
         </Menu>
       

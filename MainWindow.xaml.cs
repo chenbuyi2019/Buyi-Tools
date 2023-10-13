@@ -1,4 +1,5 @@
 ﻿
+using BuyiTools.Properties;
 using BuyiTools.Tools;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -17,7 +18,7 @@ namespace BuyiTools
 {
     public partial class MainWindow : MetroWindow, INotifyPropertyChanged
     {
-        public readonly string GreatTitle = "布衣工具箱";
+        public string GreatTitle = "布衣工具箱";
 
         public MainWindow()
         {
@@ -25,6 +26,8 @@ namespace BuyiTools
             InitializeComponent();
             this.MinWidth = this.Width;
             this.MinHeight = this.Height;
+            var versionStr = BuyiTools.Properties.Resources.ReleaseVersion;
+            this.GreatTitle += " " + versionStr;
             this.Title = this.GreatTitle;
             RegisterTools();
             var args = Environment.GetCommandLineArgs();
@@ -63,7 +66,7 @@ namespace BuyiTools
             AllTools.Add(new ToolInfo("MDL 贴图打包", nameof(MdlTextureFinder)));
             AllTools.Add(new ToolInfo("VTF 贴图压缩", nameof(VtfCompress)));
             AllTools.Add(new ToolInfo("SourceMod Dump Handles 分析", nameof(SmDumpParser)));
-            
+
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -95,6 +98,8 @@ namespace BuyiTools
 
         private void OpenTool(ToolInfo tool)
         {
+            var screenSize = this.GetMonitorWorkSize();
+            this.Top = screenSize.Height + 10;
             toolFrame.Source = tool.PageUri;
             OpenedTool = tool;
             this.Width = 1100;
@@ -191,6 +196,16 @@ namespace BuyiTools
             {
                 StartSelf(true, "-tool", OpenedTool.Title);
             }
+        }
+
+        private void BtnViewSource_Click(object sender, EventArgs e)
+        {
+            Utils.OpenProcess("https://github.com/chenbuyi2019/Buyi-Tools");
+        }
+
+        private void BtnViewWebsite_Click(object sender, EventArgs e)
+        {
+            Utils.OpenProcess("https://buyi.dev/");
         }
 
         private void BtnViewLastError_Click(object sender, EventArgs e)
