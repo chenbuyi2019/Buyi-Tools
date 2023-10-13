@@ -6,6 +6,7 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:BuyiTools"
         mc:Ignorable="d"
+        Icon="pack://application:,,,/BuyiTools;component/icon.ico"
         Height="450" Width="600" WindowStartupLocation="CenterScreen"
         Loaded="MainWindow_Loaded" Closed="MainWindow_Closed">
     <DockPanel>
@@ -22,7 +23,7 @@
                 <MenuItem x:Name="btnViewWebsite" Header="陈布衣的个人网站" Click="BtnViewWebsite_Click"></MenuItem>
             </MenuItem>
         </Menu>
-      
+
         <Frame x:Name="toolFrame" DockPanel.Dock="Top" 
                MinHeight="150" Margin="3,3,3,3"
                LoadCompleted="ToolFrame_LoadCompleted"></Frame>
@@ -30,5 +31,5 @@
                  AcceptsReturn="True" TextWrapping="Wrap"
                  VerticalScrollBarVisibility="Visible"
                  IsReadOnly="True" Text="{Binding ElementName=mainWindow,Path=TotalLog}" TextChanged="TxtLog_TextChanged"></TextBox>
-       </DockPanel>
+    </DockPanel>
 </mah:MetroWindow>
