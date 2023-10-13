@@ -31,9 +31,9 @@ namespace BuyiTools.Tools
             AttributesToSkip = FileAttributes.Hidden | FileAttributes.System
         };
 
-        private (DirectoryInfo, FileInfo[]) MustGetTargetFileList()
+        private (DirectoryInfo, FileInfo[]) MustGetTargetFileList(string targetPath)
         {
-            var targetPath = Utils.CleanPath(TxtTarget.Text);
+            targetPath = Utils.CleanPath(targetPath);
             if (targetPath.Length < 1 || !Path.IsPathRooted(targetPath)) { throw new Exception("只能识别绝对路径"); }
             var dirInfo = new DirectoryInfo(targetPath);
             if (dirInfo.Exists)
@@ -47,9 +47,10 @@ namespace BuyiTools.Tools
 
         private void ButCopyPaths_Click(object sender, EventArgs e)
         {
-            var data = MustGetTargetFileList();
+            var targetPath = TxtTarget.Text;
             DoWorkAsync(() =>
             {
+                var data = MustGetTargetFileList(targetPath);
                 var fileCount = data.Item2.Length;
                 Log($"扫描到 {fileCount} 个文件");
                 var sb = new StringBuilder();
@@ -88,9 +89,10 @@ namespace BuyiTools.Tools
                 Log("取消重命名操作");
                 return;
             }
-            var data = MustGetTargetFileList();
+            var targetPath = TxtTarget.Text;
             await DoWorkAsync(() =>
             {
+                var data = MustGetTargetFileList(targetPath);
                 var fileCount = data.Item2.Length;
                 Log($"扫描到 {fileCount} 个文件");
                 foreach (var file in data.Item2)
@@ -144,10 +146,11 @@ namespace BuyiTools.Tools
 
         private void ButMakeBz2_Click(object sender, EventArgs e)
         {
-            var data = MustGetTargetFileList();
+            var targetPath = TxtTarget.Text;
             var sizeLimit = TxtMaxCompressSize.Value * 1024 * 1024;
             DoWorkAsync(() =>
             {
+                var data = MustGetTargetFileList(targetPath);
                 var fileCount = data.Item2.Length;
                 Log($"扫描到 {fileCount} 个文件");
                 var root = data.Item1;

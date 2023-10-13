@@ -17,7 +17,10 @@
         </StackPanel>
         <TabControl Height="360">
             <TabItem Header="明细">
-                <ListView x:Name="ListDumpDetail" Style="{x:Null}"  VirtualizingStackPanel.IsVirtualizing="True" ItemsSource="{Binding ElementName=page,Path=DataDumpDetail}">
+                <ListView x:Name="ListDumpDetail" 
+                          Style="{x:Null}"  
+                          VirtualizingStackPanel.IsVirtualizing="True" 
+                          ItemsSource="{Binding ElementName=page,Path=DataDumpDetail}">
                     <ListView.View>
                         <GridView>
                             <GridView.Columns>

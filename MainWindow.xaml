@@ -10,20 +10,21 @@
         Height="450" Width="600" WindowStartupLocation="CenterScreen"
         Loaded="MainWindow_Loaded" Closed="MainWindow_Closed">
     <DockPanel>
-        <Menu IsMainMenu="True" DockPanel.Dock="Top" FontFamily="Microsoft YaHei UI">
-            <MenuItem Header="工具" ItemsSource="{Binding ElementName=mainWindow,Path=AllTools}" Click="ToolMenuItem_Click">
-            </MenuItem>
-            <MenuItem Header="高级">
-                <MenuItem x:Name="btnOpenFolder" Header="打开软件目录" Click="BtnOpenFolder_Click"></MenuItem>
-                <MenuItem x:Name="btnRestartAdmin" Header="以管理员权限重启" Click="BtnRestartAdmin_Click"></MenuItem>
-                <MenuItem x:Name="btnViewLastError" Header="查看最近一次出错的细节" Click="BtnViewLastError_Click"></MenuItem>
-            </MenuItem>
-            <MenuItem Header="关于">
-                <MenuItem x:Name="btnViewSource" Header="源码 on Github" Click="BtnViewSource_Click"></MenuItem>
-                <MenuItem x:Name="btnViewWebsite" Header="陈布衣的个人网站" Click="BtnViewWebsite_Click"></MenuItem>
-            </MenuItem>
-        </Menu>
-
+        <Border DockPanel.Dock="Top" BorderThickness="0,0,0,1" BorderBrush="Black" >
+            <Menu IsMainMenu="True" FontFamily="Microsoft YaHei UI">
+                <MenuItem Header="工具" ItemsSource="{Binding ElementName=mainWindow,Path=AllTools}" Click="ToolMenuItem_Click">
+                </MenuItem>
+                <MenuItem Header="高级">
+                    <MenuItem x:Name="btnOpenFolder" Header="打开软件目录" Click="BtnOpenFolder_Click"></MenuItem>
+                    <MenuItem x:Name="btnRestartAdmin" Header="以管理员权限重启" Click="BtnRestartAdmin_Click"></MenuItem>
+                    <MenuItem x:Name="btnViewLastError" Header="查看最近一次出错的细节" Click="BtnViewLastError_Click"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="关于">
+                    <MenuItem x:Name="btnViewSource" Header="源码 on Github" Click="BtnViewSource_Click"></MenuItem>
+                    <MenuItem x:Name="btnViewWebsite" Header="陈布衣的个人网站" Click="BtnViewWebsite_Click"></MenuItem>
+                </MenuItem>
+            </Menu>
+        </Border>
         <Frame x:Name="toolFrame" DockPanel.Dock="Top" 
                MinHeight="150" Margin="3,3,3,3"
                LoadCompleted="ToolFrame_LoadCompleted"></Frame>
