@@ -58,6 +58,7 @@ namespace BuyiTools
             AllTools.Add(new ToolInfo("FastDL 生成", nameof(FastDLCreator)));
             AllTools.Add(new ToolInfo("FastDL 下载", nameof(FastDLDownloader)));
             AllTools.Add(new ToolInfo("删除相对文件", nameof(FileDeleteTool)));
+            AllTools.Add(new ToolInfo("文件夹合并", nameof(FolderCombiner)));
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)

@@ -197,7 +197,7 @@ namespace BuyiTools
                 Log($"出错 {ex.Message}");
                 _lastError = ex;
             }
-            Log("工作结束");
+            Log("\n=== 工作结束");
             Utils.MakeUICoolDown(this);
             return error;
         }
