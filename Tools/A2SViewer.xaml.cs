@@ -108,8 +108,9 @@ namespace BuyiTools.Tools
                     sb.AppendLine($"地图: {info.Map}");
                     sb.AppendLine($"系统: {info.Environment}");
                     sb.AppendLine($"VAC启用: {(info.VAC ? '是' : '否')}");
+                    sb.AppendLine($"游戏版本: {info.Version}");
+                    sb.AppendLine($"类型: {info.ServerType}");
                     sb.AppendLine($"密码: {(info.Visibility == Okolni.Source.Common.Enums.Visibility.Public ? '无' : '有')}");
-                    sb.AppendLine($"Steam ID: {info.SteamID}");
                     var players = conn.GetPlayers();
                     if (players.Players.Any())
                     {
