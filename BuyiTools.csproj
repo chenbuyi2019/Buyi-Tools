@@ -24,6 +24,7 @@
   <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.4.10" />
     <PackageReference Include="Mono.Options" Version="6.12.0.148" />
+    <PackageReference Include="Okolni.Source.Query" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>

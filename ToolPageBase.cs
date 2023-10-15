@@ -12,7 +12,7 @@ using System.Windows.Controls.Primitives;
 
 namespace BuyiTools
 {
-    public class ToolPageBase : Page
+    public class ToolPageBase : Page, INotifyPropertyChanged
     {
         public ToolPageBase() : base()
         {
@@ -24,7 +24,10 @@ namespace BuyiTools
 
         public void CallPropertyChanged(string name)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            this.Dispatcher.Invoke(() =>
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            });
         }
 
         public event LogEventHandler? LogEvent;
@@ -166,14 +169,7 @@ namespace BuyiTools
         #endregion
 
         #region 工作
-        private Exception? _lastError = null;
-        public Exception? LastError
-        {
-            get
-            {
-                return _lastError;
-            }
-        }
+        public Exception? LastError = null;
 
         /// <summary>
         /// 执行操作，返回出错的信息
@@ -195,7 +191,7 @@ namespace BuyiTools
             {
                 error = ex;
                 Log($"出错 {ex.Message}");
-                _lastError = ex;
+                LastError = ex;
             }
             Log("\n=== 工作结束");
             Utils.MakeUICoolDown(this);
