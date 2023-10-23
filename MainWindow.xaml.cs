@@ -69,7 +69,8 @@ namespace BuyiTools
             AllTools.Add(new ToolInfo("删除相对文件", nameof(FileDeleteTool)));
             AllTools.Add(new ToolInfo("文件夹合并", nameof(FolderCombiner)));
             AllTools.Add(new ToolInfo("Mklink 制作", nameof(MklinkTool)));
-            AllTools.Add(new ToolInfo("MDL 贴图打包", nameof(MdlTextureFinder)));
+            AllTools.Add(new ToolInfo("MDL 贴图搜集", nameof(MdlTextureFinder)));
+            AllTools.Add(new ToolInfo("代码用MDL和音频搜集", nameof(SourceMdlAndSoundFinder)));
             AllTools.Add(new ToolInfo("VTF 贴图压缩", nameof(VtfCompress)));
             AllTools.Add(new ToolInfo("SourceMod Dump Handles 分析", nameof(SmDumpParser)));
             AllTools.Add(new ToolInfo("A2S 查看", nameof(A2SViewer)));

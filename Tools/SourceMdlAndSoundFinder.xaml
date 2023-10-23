@@ -1,0 +1,26 @@
+﻿<local:ToolPageBase x:Class="BuyiTools.Tools.SourceMdlAndSoundFinder"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BuyiTools"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800" Loaded="ToolPageBase_Loaded"
+      Title="SourceMdlAndSoundPacker">
+
+    <StackPanel Margin="5,5,5,5">
+        <Label>输入代码存放的文件夹：</Label>
+        <TextBox x:Name="txtCodeFolder"></TextBox>
+        <Label>输入搜索资源的文件夹：</Label>
+        <TextBox x:Name="txtGameFolder"></TextBox>
+        <Button x:Name="butWork" Click="ButWork_Click" Width="150" Margin="5,5,5,5" HorizontalAlignment="Left">搜集文件</Button>
+        <TextBlock>本工具用来搜集代码里出现的 Source 模型文件和音频文件。
+            <LineBreak></LineBreak> 
+            代码文件只识别 .lua .sp .txt .h .c 文件。 
+            <LineBreak></LineBreak> 
+            扫描时只分析里面的 .mdl .mp3 .wav .ogg 以及模型对应的贴图文件
+            <LineBreak></LineBreak>
+            资源文件夹里应该有直接的资源文件。不会自动分析vpk文件。
+        </TextBlock>
+    </StackPanel>
+</local:ToolPageBase>

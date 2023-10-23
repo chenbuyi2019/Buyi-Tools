@@ -60,9 +60,7 @@ namespace BuyiTools.Tools
                 foreach (var filepath in mdls)
                 {
                     Log($"读取 {filepath}");
-                    var r = SourceMDLFileTextureInfo.ParseFile(filepath);
-                    r.SearchVmtVtfFiles(materialsDir);
-                    Log($"扫描到 vmt {r.VmtFileNames.Count}个，vtf {r.FoundVtfFiles.Count + r.LostVtfNames.Count}个");
+                    var r = CopyMaterialForModel(filepath, materialsDir, destDir);
                     List<string>[] arrays1 = { r.LostVmtNames, r.LostVtfNames };
                     foreach (var array in arrays1)
                     {
@@ -70,19 +68,6 @@ namespace BuyiTools.Tools
                         {
                             totalLost += 1;
                             Log($"丢失: {v}");
-                        }
-                    }
-                    List<string>[] arrays2 = { r.FoundVmtFiles, r.FoundVtfFiles };
-                    foreach (var array in arrays2)
-                    {
-                        foreach (var v in array)
-                        {
-                            var relPath = Path.GetRelativePath(r.MaterialsDir, v);
-                            var destPath = Path.Combine(destDir, relPath);
-                            var dir = Path.GetDirectoryName(destPath);
-                            if (string.IsNullOrEmpty(dir)) { throw new Exception($"无法获取文件夹路径 {v}"); }
-                            Directory.CreateDirectory(dir);
-                            File.Copy(v, destPath, true);
                         }
                     }
                 }
@@ -99,9 +84,29 @@ namespace BuyiTools.Tools
             TxtMdlFiles.Text = string.Join("\r\n", mdls);
         }
 
+        public static SourceMDLFileTextureInfo CopyMaterialForModel(string filepath, string materialsDir, string destDir)
+        {
+            var r = SourceMDLFileTextureInfo.ParseFile(filepath);
+            r.SearchVmtVtfFiles(materialsDir);
+            List<string>[] arrays2 = { r.FoundVmtFiles, r.FoundVtfFiles };
+            foreach (var array in arrays2)
+            {
+                foreach (var v in array)
+                {
+                    var relPath = Path.GetRelativePath(r.MaterialsDir, v);
+                    var destPath = Path.Combine(destDir, relPath);
+                    var dir = Path.GetDirectoryName(destPath);
+                    if (string.IsNullOrEmpty(dir)) { throw new Exception($"无法获取文件夹路径 {v}"); }
+                    Directory.CreateDirectory(dir);
+                    File.Copy(v, destPath, true);
+                }
+            }
+            return r;
+        }
+
     }
 
-    internal class SourceMDLFileTextureInfo
+    public class SourceMDLFileTextureInfo
     {
         public SourceMDLFileTextureInfo()
         {
@@ -171,10 +176,8 @@ namespace BuyiTools.Tools
             {
                 filestream.Seek(offset, SeekOrigin.Begin);
                 var str = Utils.ReadNullTerminatedStr(filestream);
-                if (!string.IsNullOrWhiteSpace(str))
-                {
-                    dirNames.Add(str);
-                }
+                str = str.Trim('/', '\\');
+                dirNames.Add(str);
             }
             var result = new SourceMDLFileTextureInfo()
             {
@@ -331,11 +334,18 @@ namespace BuyiTools.Tools
             return result;
         }
 
-        private static string? ReadNextWord(IList<string> words, string key)
+        private static List<string> ReadAllMatchedWord(IList<string> words, string key)
         {
-            var index = Utils.FindStrInListIgnoreCase(words, key);
-            if (index < 0 || index + 1 >= words.Count) { return null; }
-            return words[index + 1];
+            var lastIndex = -1;
+            var ls = new List<string>();
+            for (int retry = 0; retry < 5; retry++)
+            {
+                var index = Utils.FindStrInListIgnoreCase(words, key, lastIndex);
+                if (index < 0 || index + 1 >= words.Count) { break; }
+                ls.Add(words[index + 1]);
+                lastIndex = index + 1;
+            }
+            return ls;
         }
 
         private static IList<string>? SearchVtfFromVmtFile(string vmtFile, string materialsDir)
@@ -353,28 +363,36 @@ namespace BuyiTools.Tools
             var gotPatch = Utils.FindStrInListIgnoreCase(words, "patch") >= 0 && Utils.FindStrInListIgnoreCase(words, "include") >= 0;
             if (gotPatch)
             {
-                var includeVmt = ReadNextWord(words, "include");
-                if (!string.IsNullOrWhiteSpace(includeVmt))
+                var includeVmts = ReadAllMatchedWord(words, "include");
+                foreach (var ivmt in includeVmts)
                 {
-                    includeVmt = includeVmt.Replace("\\", "/");
-                    includeVmt = Utils.StrTrimPrefix(includeVmt, "materials/");
-                    var includeVtf = SearchVtfFromVmtFile(includeVmt, materialsDir);
-                    if (includeVtf != null)
+                    var includeVmt = ivmt;
+                    if (!string.IsNullOrWhiteSpace(includeVmt))
                     {
-                        foreach (var v in includeVtf)
+                        includeVmt = includeVmt.Replace("\\", "/");
+                        includeVmt = Utils.StrTrimPrefix(includeVmt, "materials/");
+                        var includeVtf = SearchVtfFromVmtFile(includeVmt, materialsDir);
+                        if (includeVtf != null)
                         {
-                            if (Utils.FindStrInListIgnoreCase(result, v) < 0) { result.Add(v); }
+                            foreach (var v in includeVtf)
+                            {
+                                if (Utils.FindStrInListIgnoreCase(result, v) < 0) { result.Add(v); }
+                            }
                         }
                     }
                 }
             }
             foreach (var key in VtfFilenameKeys)
             {
-                var v = ReadNextWord(words, key);
-                if (string.IsNullOrWhiteSpace(v)) { continue; }
-                v = Utils.StrTrimSuffix(v, ".vtf");
-                if (Utils.FindStrInListIgnoreCase(result, v) >= 0) { continue; }
-                result.Add(v);
+                var ls = ReadAllMatchedWord(words, key);
+                foreach (var raw in ls)
+                {
+                    var v = raw;
+                    if (string.IsNullOrWhiteSpace(v)) { continue; }
+                    v = Utils.StrTrimSuffix(v, ".vtf");
+                    if (Utils.FindStrInListIgnoreCase(result, v) >= 0) { continue; }
+                    result.Add(v);
+                }
             }
             return result;
         }

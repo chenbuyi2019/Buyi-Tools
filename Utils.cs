@@ -167,11 +167,12 @@ namespace BuyiTools
         /// <summary>
         /// 在数组里寻找 target 字符串，返回一致的字符串的 index ，如果找不到就返回-1（忽略大小写）
         /// </summary>
-        public static int FindStrInListIgnoreCase(IList<string> list, string target)
+        public static int FindStrInListIgnoreCase(IList<string> list, string target, int after = -1)
         {
             int ct = list.Count;
             for (int i = 0; i < ct; i++)
             {
+                if (i <= after) { continue; }
                 var str = list[i];
                 if (target.Equals(str, IgnoreCase)) { return i; }
             }
